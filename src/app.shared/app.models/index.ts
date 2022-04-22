@@ -9,4 +9,37 @@ type User = {
     projects: string[], // projects id's
 }
 
-export type { User }
+type Project = {
+    id: string,
+    owner: string, // owners uuid
+    controllers: string[], // managers uuids
+    checkpoints: string[], // checkpoint uuids
+    organizations: string[], // description strings
+}
+
+type Checkpoint = {
+    id: string,
+    controllers: string[],
+    documents: string[],
+    report: string,
+    infographics: string,
+    conferences: string[]
+}
+
+type Conference = () => {
+    id: string,
+    title: string,
+    participants: string[],
+    begin: number,
+    end: number,
+    chat: Message[]
+}
+
+type Message = () => {
+    id: string,
+    sender: string,
+    sentAt: number,
+    text: string
+}
+
+export type { User, Project, Checkpoint, Conference, Message}

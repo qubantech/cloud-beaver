@@ -9,7 +9,7 @@ export function ButtonMenu() {
 		<Menu
 			control={
 				<Button rightIcon={<ChevronDown size={18} />} sx={{ paddingRight: 12 }}>
-					Create new
+					Создать
 				</Button>
 			}
 			transition="pop-top-right"
@@ -24,7 +24,7 @@ export function ButtonMenu() {
 					</Text>
 				}
 			>
-				Project
+				Проект
 			</Menu.Item>
 			<Menu.Item
 				icon={<SquareCheck size={16} color={theme.colors.pink[6]} />}
@@ -34,27 +34,7 @@ export function ButtonMenu() {
 					</Text>
 				}
 			>
-				Task
-			</Menu.Item>
-			<Menu.Item
-				icon={<Users size={16} color={theme.colors.cyan[6]} />}
-				rightSection={
-					<Text size="xs" transform="uppercase" weight={700} color="dimmed">
-						Ctrl + U
-					</Text>
-				}
-			>
-				Team
-			</Menu.Item>
-			<Menu.Item
-				icon={<Calendar size={16} color={theme.colors.violet[6]} />}
-				rightSection={
-					<Text size="xs" transform="uppercase" weight={700} color="dimmed">
-						Ctrl + E
-					</Text>
-				}
-			>
-				Event
+				Задачу
 			</Menu.Item>
 		</Menu>
 	)

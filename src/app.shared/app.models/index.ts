@@ -28,7 +28,7 @@ type Checkpoint = {
     costDeviation: number
 }
 
-type Conference = () => {
+type Conference = {
     id: string,
     title: string,
     description: string,
@@ -38,7 +38,7 @@ type Conference = () => {
     chat: Message[] | undefined
 }
 
-type Message = () => {
+type Message = {
     id: string,
     sender: string,
     sentAt: number,

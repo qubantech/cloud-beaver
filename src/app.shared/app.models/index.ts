@@ -11,10 +11,14 @@ type User = {
 
 type Project = {
     id: string,
+    title: string,
     owner: string, // owners uuid
     controllers: string[] | undefined, // managers uuids
     checkpoints: string[] | undefined, // checkpoint uuids
     organizations: string[] | undefined, // description strings
+    deltaBudget: number,
+    deltaTime: number,
+    iq: number
 }
 
 type Checkpoint = {
@@ -22,10 +26,13 @@ type Checkpoint = {
     controllers: string[] | undefined,
     documents: string[] | undefined,
     report: string,
-    infographics: string,
     conferences: string[] | undefined,
     timeDeviation: number,
-    costDeviation: number
+    costDeviation: number,
+    tasks: string[] | undefined
+    iq: number,
+    deltaBudget: number,
+    deltaTime: number
 }
 
 type Conference = {
@@ -35,7 +42,8 @@ type Conference = {
     participants: string[] | undefined,
     begin: number,
     end: number,
-    chat: Message[] | undefined
+    chat: Message[] | undefined,
+    link: string
 }
 
 type Message = {
@@ -65,8 +73,12 @@ type Task = {
     implementers: string[] | undefined,
     controllers: string[] | undefined,
     chat: Message[] | undefined,
-    score: number,
-    connectedTasks: string[] | undefined
+    connectedTasks: string[] | undefined,
+    budgetPlan: number,
+    budgetFact: number,
+    iq: number,
+    deltaBudget: number,
+    deltaTime: number
 }
 
 type Application = {

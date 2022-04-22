@@ -35,7 +35,8 @@ type Conference = {
     participants: string[] | undefined,
     begin: number,
     end: number,
-    chat: Message[] | undefined
+    chat: Message[] | undefined,
+    link: string
 }
 
 type Message = {

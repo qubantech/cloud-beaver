@@ -29,6 +29,7 @@ type Checkpoint = {
 type Conference = () => {
     id: string,
     title: string,
+    description: string,
     participants: string[],
     begin: number,
     end: number,
@@ -42,4 +43,33 @@ type Message = () => {
     text: string
 }
 
-export type { User, Project, Checkpoint, Conference, Message}
+type Document = {
+    id: string,
+    data: never,
+    chat: Message[],
+    status: string
+}
+
+type Task = {
+    id: string,
+    title: string,
+    description: string,
+    begin: number,
+    endPlan: number,
+    endFact: number,
+    tags: string[],
+    applications: Application[],
+    status: string,
+    implementers: string[],
+    controllers: string[],
+    chat: Message[],
+    score: number,
+    connectedTasks: string[]
+}
+
+type Application = {
+    link: string,
+    type: string
+}
+
+export type { User, Project, Checkpoint, Conference, Message, Task, Document, Application }

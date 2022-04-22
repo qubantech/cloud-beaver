@@ -7,6 +7,5 @@ export const About = () => {
 	return <>
 		<HeroTitle/>
 		<SubGrid/>
-		<SubGrid/>
 	</>
 }

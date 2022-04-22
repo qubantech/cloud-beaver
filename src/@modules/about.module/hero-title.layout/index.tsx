@@ -1,6 +1,9 @@
 import React from 'react'
 import { createStyles, Container, Text, Button, Group, useMantineTheme } from '@mantine/core'
 import { BrandGithub } from 'tabler-icons-react'
+import { useRecoilValue } from 'recoil'
+import { UserAuthState } from '../../../app.shared/app.state'
+import { useNavigate } from 'react-router-dom'
 
 const BREAKPOINT = '@media (max-width: 1060px)'
 
@@ -13,8 +16,8 @@ const useStyles = createStyles((theme) => ({
 
 	inner: {
 		position: 'relative',
-		paddingTop: 200,
-		paddingBottom: 140,
+		paddingTop: 140,
+		paddingBottom: 100,
 
 		[BREAKPOINT]: {
 			paddingBottom: 80,
@@ -81,6 +84,9 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export function HeroTitle() {
+
+	const navigate = useNavigate()
+	const user = useRecoilValue(UserAuthState)
 	const { classes, cx } = useStyles()
 	const theme = useMantineTheme()
 
@@ -88,37 +94,37 @@ export function HeroTitle() {
 		<div className={classes.wrapper}>
 			<Container className={classes.inner}>
 				<h1 className={classes.title}>
-                    Quban {' '}
+                    Cloud {' '}
 					<Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
-                        Tech
+                        Beaver
 					</Text>{' '}
 				</h1>
 
 				<Text className={classes.description} color="dimmed">
-                    Какое-то описание <br/>
-                    Надо нагенерировать <br/>
-                    Нормальное <br/>
+                    Лучшее решение в сфере контроля реализации проектов.<br/>
 				</Text>
-
-				<Group className={classes.controls}>
-					<Button
-						size="xl"
-						className={classes.control}
-						variant="gradient"
-						gradient={{ from: 'blue', to: 'cyan' }}
-					>
-                        Показать что-то
-					</Button>
-					<Button
-						component="a"
-						href="https://github.com"
-						variant="outline"
-						className={cx(classes.control, classes.githubControl)}
-						color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
-					>
-						<BrandGithub />
-					</Button>
-				</Group>
+				{
+					!user && <Group className={classes.controls}>
+						<Button
+							size="xl"
+							className={classes.control}
+							variant="gradient"
+							gradient={{ from: 'blue', to: 'cyan' }}
+							onClick={() => navigate('/login')}
+						>
+							Попробовать
+						</Button>
+						<Button
+							component="a"
+							href="https://github.com"
+							variant="outline"
+							className={cx(classes.control, classes.githubControl)}
+							color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
+						>
+							<BrandGithub />
+						</Button>
+					</Group>
+				}
 			</Container>
 		</div>
 	)

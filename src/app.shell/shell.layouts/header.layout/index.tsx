@@ -42,7 +42,7 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 				</NavLink>
 			))
 
-			return nestedMenuItems
+			return nestedMenuItems?.length == 1
 				?
 				<Menu key={link.label + uuid} trigger="hover" delay={0} transitionDuration={0} placement="end" gutter={1} control={
 					<NavLink to={link.link} className={classes.link}>
@@ -59,7 +59,7 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 					{link.label}
 				</NavLink>
 		}),
-		[]
+		[links]
 	)
 
 	const toggleNavbar = () => {

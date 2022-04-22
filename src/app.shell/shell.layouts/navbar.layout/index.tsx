@@ -1,11 +1,12 @@
 import React, { RefObject, useEffect, useMemo, useState } from 'react'
 import { Navbar, SegmentedControl, Text } from '@mantine/core'
-import { Logout, Icon } from 'tabler-icons-react'
+import { Logout, Icon, Login } from 'tabler-icons-react'
 import { useNavbarStyles } from './navbar.style'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useId } from '@mantine/hooks'
 import { useRecoilState } from 'recoil'
 import { NavbarState } from '../../shell.state'
+import { UserAuthState } from '../../../app.shared/app.state'
 
 
 interface NavbarItem {
@@ -57,8 +58,12 @@ const NavbarMenuItem = ({item, classes, cx, active, setActive}: {
 
 
 export const NavbarSegmented = (
-	{ data, showTabs=true, logoutCallback, userEmail, style, forwardRef }: NavbarSegmentedProps
+	{ data, showTabs=true, userEmail, style, forwardRef }: NavbarSegmentedProps
 ) => {
+	const [ , setShow ] = useRecoilState(NavbarState)
+	const [ user, setUser ] = useRecoilState(UserAuthState)
+	const navigate = useNavigate()
+
 	const uuid = useId()
 
 	const { classes, cx } = useNavbarStyles()
@@ -118,6 +123,18 @@ export const NavbarSegmented = (
 			fullWidth
 		/>
 
+
+	const onLogout = () => {
+		setUser(null)
+		navigate('/')
+		setShow(false)
+	}
+
+	const onLogin = () => {
+		navigate('/login')
+		setShow(false)
+	}
+
 	return (
 		<Navbar p='md' className={classes.navbar} style={style} ref={forwardRef} fixed >
 			<Navbar.Section mt='xs'>
@@ -129,12 +146,23 @@ export const NavbarSegmented = (
 					{tabs[section]}
 				</>
 			</Navbar.Section>
-			<Navbar.Section mb='md' className={classes.footer}>
-				<div className={classes.link} onClick={logoutCallback}>
-					<Logout className={classes.linkIcon}/>
-					<span>Logout</span>
-				</div>
-			</Navbar.Section>
+			{
+				user
+				&&
+				<Navbar.Section mb='md' className={classes.footer} onClick={onLogout}>
+					<div className={classes.link}>
+						<Logout className={classes.linkIcon}/>
+						<span>Logout</span>
+					</div>
+				</Navbar.Section>
+				||
+				<Navbar.Section mb='md' className={classes.footer} onClick={onLogin}>
+					<div className={classes.link}>
+						<Login className={classes.linkIcon}/>
+						<span>Login</span>
+					</div>
+				</Navbar.Section>
+			}
 		</Navbar>
 	)
 }

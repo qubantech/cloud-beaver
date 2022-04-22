@@ -6,34 +6,36 @@ type User = {
     lastname: string,
     email: string,
     role: 'manager' | 'partner' | 'implementer',
-    projects: string[], // projects id's
+    projects: string[] | undefined, // projects id's
 }
 
 type Project = {
     id: string,
     owner: string, // owners uuid
-    controllers: string[], // managers uuids
-    checkpoints: string[], // checkpoint uuids
-    organizations: string[], // description strings
+    controllers: string[] | undefined, // managers uuids
+    checkpoints: string[] | undefined, // checkpoint uuids
+    organizations: string[] | undefined, // description strings
 }
 
 type Checkpoint = {
     id: string,
-    controllers: string[],
-    documents: string[],
+    controllers: string[] | undefined,
+    documents: string[] | undefined,
     report: string,
     infographics: string,
-    conferences: string[]
+    conferences: string[] | undefined,
+    timeDeviation: number,
+    costDeviation: number
 }
 
 type Conference = () => {
     id: string,
     title: string,
     description: string,
-    participants: string[],
+    participants: string[] | undefined,
     begin: number,
     end: number,
-    chat: Message[]
+    chat: Message[] | undefined
 }
 
 type Message = () => {
@@ -46,7 +48,7 @@ type Message = () => {
 type Document = {
     id: string,
     data: never,
-    chat: Message[],
+    chat: Message[] | undefined,
     status: string
 }
 
@@ -57,14 +59,14 @@ type Task = {
     begin: number,
     endPlan: number,
     endFact: number,
-    tags: string[],
-    applications: Application[],
+    tags: string[] | undefined,
+    applications: Application[] | undefined,
     status: string,
-    implementers: string[],
-    controllers: string[],
-    chat: Message[],
+    implementers: string[] | undefined,
+    controllers: string[] | undefined,
+    chat: Message[] | undefined,
     score: number,
-    connectedTasks: string[]
+    connectedTasks: string[] | undefined
 }
 
 type Application = {

@@ -13,4 +13,4 @@ const addConference = (conference: Conference) => {
 	return putObject<Conference>(`/conferences/${conference.id}`, conference)
 }
 
-export {useConferenceById, useConferenceList}
+export {useConferenceById, useConferenceList, addConference}

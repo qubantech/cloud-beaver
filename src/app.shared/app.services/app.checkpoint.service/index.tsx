@@ -1,4 +1,4 @@
-import {Checkpoint, Conference} from '../../app.models'
+import {Checkpoint} from '../../app.models'
 import {useWatchedObject} from '../../app.configs/hooks'
 // @ts-ignore
 import {v4 as uuid} from 'uuid'
@@ -13,4 +13,4 @@ const addCheckpoint = (checkpoint: Checkpoint) => {
 	return putObject<Checkpoint>(`/checkpoints/${checkpoint.id}`, checkpoint)
 }
 
-export {useCheckpointById, useCheckpointList}
+export {useCheckpointById, useCheckpointList, addCheckpoint}

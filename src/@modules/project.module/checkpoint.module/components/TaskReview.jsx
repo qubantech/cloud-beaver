@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 
 import {Badge, Card, Group, Text, Modal} from '@mantine/core'
-import TaskModule from '../../task.module/task.module'
+import TaskModal from './TaskModal'
 
 
 
 // eslint-disable-next-line react/prop-types
 const TaskReview = ({id, dragOverlay, title, description, }) => {
 	const style = {
-		 cursor: dragOverlay ? 'grabbing' : 'grab',
+		cursor: dragOverlay ? 'grabbing' : 'grab',
 		minWidth: '225px',
 	}
 
@@ -21,7 +21,7 @@ const TaskReview = ({id, dragOverlay, title, description, }) => {
 				onClose={() => setOpened(false)}
 				title="Introduce yourself!"
 			>
-				<TaskModule/>
+				<TaskModal/>
 			</Modal>
 
 			<div style={style} >

@@ -101,7 +101,7 @@ export const NavbarSegmented = (
 
 			}, {}
 		),
-		[]
+		[data]
 	)
 
 	const UserEmail = userEmail &&

@@ -13,6 +13,7 @@ import {
 import { FooterLinks, HeaderMenu, NavbarSegmented } from './shell.layouts'
 import { FabButton } from './shell.components/fab.component'
 import { useNavigate } from 'react-router-dom'
+import { UserAuthState } from '../app.shared/app.state'
 
 
 const Styles = (theme: MantineTheme) => ({
@@ -24,11 +25,12 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 	const navigate = useNavigate()
 
 	const showNavbar = useRecoilValue(NavbarState)
+	const user = useRecoilValue(UserAuthState)
 
 	const logoutCallback = () => console.log('Logout')
 
 
-	const DATA = [
+	const DATA = user ? [
 		{
 			label: 'Demos',
 			link: '',
@@ -40,6 +42,14 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 			label: 'Проекты',
 			link: '/projects',
 			links: []
+		},
+	] : [
+		{
+			label: 'Demos',
+			link: '',
+			links: [
+				{ link: '/template', label: 'Template', icon: BellRinging },
+			]
 		},
 	]
 

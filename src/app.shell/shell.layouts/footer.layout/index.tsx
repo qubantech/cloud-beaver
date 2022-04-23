@@ -64,7 +64,7 @@ export const FooterLinks = ({ data, socialMedia, copyrightText }: FooterLinksPro
 				<div className={classes.logo}>
 					<Logo/>
 					<Text size="xs" color="dimmed" className={classes.description}>
-						Здесь какой-то осмысленный текст в футере
+						Лучшее решение для контроля реализации проектов
 					</Text>
 				</div>
 				<div className={classes.groups}>{groups}</div>

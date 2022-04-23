@@ -17,7 +17,7 @@ import { NotificationsProvider } from '@mantine/notifications'
 const MANTINE_DEFAULT_PROPS = {
 	Container: {
 		sizes: {
-			md: 1120,
+			md: 1390,
 		},
 	},
 }

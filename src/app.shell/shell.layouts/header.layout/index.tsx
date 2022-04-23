@@ -42,7 +42,7 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 				</NavLink>
 			))
 
-			return nestedMenuItems
+			return nestedMenuItems?.length == 1
 				?
 				<Menu key={link.label + uuid} trigger="hover" delay={0} transitionDuration={0} placement="end" gutter={1} control={
 					<NavLink to={link.link} className={classes.link}>
@@ -59,7 +59,7 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 					{link.label}
 				</NavLink>
 		}),
-		[]
+		[links]
 	)
 
 	const toggleNavbar = () => {
@@ -82,7 +82,7 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 					{
 						user
 						&& <UserMenu user={{
-							name: 'Oleg Lihogub',
+							name: 'Олег Лихогуб',
 							image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
 						}}/>
 						|| <Button variant={'outline'} color={'gray'} onClick={onLogin}>

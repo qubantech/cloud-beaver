@@ -1,27 +1,42 @@
 import React, { useState } from 'react'
 
-import {Badge, Card, Group, Text, Modal} from '@mantine/core'
+import {Badge, Card, Group, Text, Modal, SimpleGrid} from '@mantine/core'
 import TaskModal from './TaskModal'
 
-
-
 // eslint-disable-next-line react/prop-types
-const TaskReview = ({id, dragOverlay, title, description, }) => {
+const TaskReview = ({id, dragOverlay, title, description }) => {
 	const style = {
 		cursor: dragOverlay ? 'grabbing' : 'grab',
-		minWidth: '225px',
+		minWidth: '280px',
 	}
 
 	const [opened, setOpened] = useState(false)
+
+	const CheckpointDescription = () => {
+		return (
+			<>
+
+			</>
+		)
+	}
 
 	return (
 		<>
 			<Modal
 				opened={opened}
 				onClose={() => setOpened(false)}
-				title="Introduce yourself!"
+				size={'xl'}
+				title={
+					<Group>
+						<Text>{ title }</Text>
+						<Badge>В процессе</Badge>
+					</Group>
+				}
 			>
-				<TaskModal/>
+				<TaskModal
+					title={ title }
+					description={ description }
+				/>
 			</Modal>
 
 			<div style={style} >
@@ -34,13 +49,20 @@ const TaskReview = ({id, dragOverlay, title, description, }) => {
 						{ description }
 					</Text>
 
-					<Group direction={ 'column' } spacing={3} style={{marginTop: '10px'}}>
-						<Text size="sm" >
-							Дата начала: <Badge color={'cyan'}>20.02.2002</Badge>
-						</Text>
-						<Text size="sm" >
-							Дата конца: <Badge color={'cyan'}>20.02.2002</Badge>
-						</Text>
+					<Group direction={ 'column' } spacing={3} style={{marginTop: '10px', width: '100%'}}>
+						<Group position='apart' style={{ width: '100%' }}>
+							<Text size="sm" >
+								Дата начала:
+							</Text>
+							<Badge color={'cyan'}>20.02.2002</Badge>
+						</Group>
+
+						<Group position='apart' style={{ width: '100%' }}>
+							<Text size="sm" >
+								Дата конца:
+							</Text>
+							<Badge color={'cyan'}>20.02.2002</Badge>
+						</Group>
 					</Group>
 				</Card>
 			</div>

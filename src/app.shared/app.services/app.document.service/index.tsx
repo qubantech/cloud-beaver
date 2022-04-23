@@ -2,7 +2,7 @@ import {Document} from '../../app.models'
 import {useWatchedObject} from '../../app.configs/hooks'
 // @ts-ignore
 import {v4 as uuid} from 'uuid'
-import {putObject} from '../../app.configs';
+import {putObject} from '../../app.configs'
 
 const useDocumentById = (id: string) => useWatchedObject<Document>(`/documents/${id}`)
 

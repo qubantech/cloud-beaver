@@ -23,6 +23,7 @@ type Project = {
 
 type Checkpoint = {
     id: string,
+    title: string,
     controllers: string[] | undefined,
     documents: string[] | undefined,
     report: string,

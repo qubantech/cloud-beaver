@@ -1,0 +1,17 @@
+.cs-message__sender-name, .cs-message__sent-time {
+    color: #CED4DA !important;
+    margin-top: 5px;
+}
+
+.cs-message__content,
+.cs-message-input__content-editor-wrapper,
+.cs-message-input__content-editor-container,
+.cs-message-input__content-editor {
+    background-color: #CED4DA !important;
+}
+
+.cs-button--attachment,
+.cs-button--send{
+    color: #339AF0;
+}
+

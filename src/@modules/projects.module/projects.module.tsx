@@ -12,7 +12,6 @@ import {
 	Title, Accordion, Paper, Button
 } from '@mantine/core'
 import { DateRangePicker } from '@mantine/dates'
-import { Route, Routes, useParams } from 'react-router-dom'
 import { MessageCircle, Photo, Settings } from 'tabler-icons-react'
 import { StatsRingCard } from '../../app.shared/app.components/stats-ring-card.component'
 import {
@@ -25,44 +24,57 @@ import {
 	Recommendation,
 	MainMetricWidget
 } from './components'
+import { useNavigate } from 'react-router-dom'
 import { Chat } from './layouts/chat.layout/chat.component'
 
 
-const ProjectsContainer = () => {
+const ProjectsContainer = ({ cardSelected, setCardSelected }: any) => {
 
 	return <>
 		<SimpleGrid cols={3}>
 			{
-				[1, 2, 3, 4, 5, 6, 6, 7, 8].map((key) => (<ProjectCard
-					redirect={key.toString()}
+				[ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map((key) => (<ProjectCard
+					redirect={`/project/${key}`}
 					key={key} {...{
 						category: 'Технологии',
 						title: 'Создание цифрового двойника города',
 						date: 'До 31.12.2024',
 						department: 'Отдел информационных технологий'
-					}}/>
+					}}
+					onClick={() => {
+						if (key === cardSelected) {
+							setCardSelected(null)
+							return
+						}
+						setCardSelected(key)
+					}}
+					isSelected={cardSelected === key}
+				/>
 				))
 			}
-		</SimpleGrid >
+		</SimpleGrid>
 		<Center mt={'lg'}>
-			<Pagination total={10} />
+			<Pagination total={10}/>
 		</Center>
 	</>
 }
 
 const OverviewTab = () => {
 
+	const navigate = useNavigate()
+	const [ cardSelected, setCardSelected ] = useState<number | null>(null)
+
 	return <>
 		<Container my="md">
 			<Grid columns={12} gutter={28}>
 				<Grid.Col span={8}>
 					<Group position={'apart'} my={'xs'}>
-						<Title style={{color: '#FFFFFF'}} order={2}>
+						<Title style={{ color: '#FFFFFF' }} order={2}>
 							Проекты
 						</Title>
 						<ButtonMenu/>
 					</Group>
-					<ProjectsContainer/>
+					<ProjectsContainer cardSelected={cardSelected} setCardSelected={setCardSelected}/>
 				</Grid.Col>
 				<Grid.Col span={4}>
 					<StatsSegments
@@ -91,34 +103,39 @@ const OverviewTab = () => {
 							]
 						}}
 					/>
-					<Divider my="xs" label="Краткая сводка" labelPosition="center" />
-					<ProjectPreviewCard {...{
-						image:
-							'https://admnvrsk.ru/upload/resize_cache/iblock/97c/865_497_2/97cb010aa3a97f724bed2dead73860b2.jpg',
-						title: 'Создание "Цифрового двойника города"',
-						description:
-							'МБУ ""АПК Безопасный город - ЕДДС""\n' +
-							'Управление транспорта и дорожного хозяйства\n' +
-							'Управление культуры\n' +
-							'Управление образования\n' +
-							'Управление по физической культуре и спорту\n' +
-							'Отдел экологической безопасности\n' +
-							'Отдел по курортам и туризму\n',
-						badges: [
-							{
-								'emoji': '☀️',
-								'label': 'Sunny weather'
-							},
-							{
-								'emoji': '🦓',
-								'label': 'Onsite zoo'
-							},
-							{
-								'emoji': '🌊',
-								'label': 'Sea'
-							}
-						]
-					}}/>
+					{
+						cardSelected &&
+						<>
+							<Divider my="xs" label="Краткая сводка" labelPosition="center"/>
+							<ProjectPreviewCard {...{
+								image: 'https://admnvrsk.ru/upload/resize_cache/iblock/97c/865_497_2/97cb010aa3a97f724bed2dead73860b2.jpg',
+								title: 'Создание "Цифрового двойника города"',
+								description: 'МБУ ""АПК Безопасный город - ЕДДС""\n' +
+								'Управление транспорта и дорожного хозяйства\n' +
+								'Управление культуры\n' +
+								'Управление образования\n' +
+								'Управление по физической культуре и спорту\n' +
+								'Отдел экологической безопасности\n' +
+								'Отдел по курортам и туризму\n',
+								badges: [
+									{
+										'emoji': '☀️',
+										'label': 'Sunny weather'
+									},
+									{
+										'emoji': '🦓',
+										'label': 'Onsite zoo'
+									},
+									{
+										'emoji': '🌊',
+										'label': 'Sea'
+									}
+								]
+							}}
+							onClick={() => navigate(`/project/${cardSelected}`)}
+							/>
+						</>
+					}
 				</Grid.Col>
 			</Grid>
 		</Container>
@@ -127,7 +144,7 @@ const OverviewTab = () => {
 
 const InfoTab = () => {
 
-	const [date, setDate] = useState<[Date | null, Date | null]>([
+	const [ date, setDate ] = useState<[ Date | null, Date | null ]>([
 		new Date(2021, 11, 1),
 		new Date(2021, 11, 5),
 	])
@@ -182,7 +199,7 @@ const InfoTab = () => {
 								value={date}
 								onChange={setDate}
 							/>
-							<Button variant="outline" >
+							<Button variant="outline">
 								Скачать отчёт
 							</Button>
 						</Group>
@@ -193,10 +210,12 @@ const InfoTab = () => {
 								Colors, fonts, shadows and many other parts are customizable to fit your design needs
 							</Accordion.Item>
 							<Accordion.Item label="Flexibility">
-								Configure components appearance and behavior with vast amount of settings or overwrite any part of component styles
+								Configure components appearance and behavior with vast amount of settings or overwrite
+								any part of component styles
 							</Accordion.Item>
 							<Accordion.Item label="No annoying focus ring">
-								With new :focus-visible pseudo-class focus ring appears only when user navigates with keyboard
+								With new :focus-visible pseudo-class focus ring appears only when user navigates with
+								keyboard
 							</Accordion.Item>
 						</Accordion>
 					</Paper>
@@ -210,11 +229,11 @@ const InfoTab = () => {
 const AnalyticsTab = () => {
 
 	return <>
-		<Grid columns={ 12 } gutter={0}>
+		<Grid columns={12} gutter={0}>
 			<Grid.Col span={8}>
 				<SimpleGrid cols={1}>
 					<Recommendation/>
-					<Title style={{color: '#FFFFFF'}} order={2}>Проекты</Title>
+					<Title style={{ color: '#FFFFFF' }} order={2}>Проекты</Title>
 					<RangedTable {...{
 						'data': [
 							{
@@ -313,53 +332,27 @@ const AnalyticsTab = () => {
 
 const ProjectsDashboard = () => {
 
-	const [activeTab, setActiveTab] = useState(0)
+	const [ activeTab, setActiveTab ] = useState(0)
 
 	return <Container mt={'lg'}>
-		<Tabs active={activeTab} onTabChange={setActiveTab} >
-			<Tabs.Tab label="Обзор" icon={<Photo size={14} />}>
+		<Tabs active={activeTab} onTabChange={setActiveTab}>
+			<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
 				<OverviewTab/>
 			</Tabs.Tab>
-			<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14} />}>
+			<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
 				<InfoTab/>
 			</Tabs.Tab>
-			<Tabs.Tab label="Аналитика" icon={<Settings size={14} />}>
+			<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
 				<AnalyticsTab/>
 			</Tabs.Tab>
 		</Tabs>
 	</Container>
 }
 
-const ProjectBoard = () => {
-
-	const { id } = useParams()
-
-	return <Container mt={'lg'}>
-		<Tabs>
-			<Tabs.Tab label="Gallery" icon={<Photo size={14} />}>
-				Gallery tab content
-			</Tabs.Tab>
-			<Tabs.Tab label="Messages" icon={<MessageCircle size={14} />}>
-				Messages tab content
-			</Tabs.Tab>
-			<Tabs.Tab label="Settings" icon={<Settings size={14} />}>
-				Settings tab content
-			</Tabs.Tab>
-		</Tabs>
-		<Text size="sm" mt="sm" color="dimmed">
-			{id}
-		</Text>
-	</Container>
-}
-
 
 export const Projects = () => {
 
-	return (
-		<Routes>
-			<Route index element={<ProjectsDashboard/>}/>
-			<Route path={':id'} element={<ProjectBoard/>}/>
-			<Route path={'chat'} element={<Chat/>}/>
-		</Routes>
-	)
+	return (<>
+		<ProjectsDashboard/>
+	</>)
 }

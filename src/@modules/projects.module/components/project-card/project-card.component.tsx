@@ -1,7 +1,8 @@
 import React from 'react'
-import { Card, Avatar, Text, Group, Badge } from '@mantine/core'
+import { Card, Avatar, Text, Group, Badge, ActionIcon } from '@mantine/core'
 import { useStyles } from './project-card.style'
 import { useNavigate } from 'react-router-dom'
+import { Adjustments } from 'tabler-icons-react'
 
 
 interface ArticleCardVerticalProps {
@@ -10,6 +11,8 @@ interface ArticleCardVerticalProps {
 	date: string;
 	department: string;
 	redirect: string;
+	isSelected?: boolean;
+	onClick: () => void;
 }
 
 export function ProjectCard({
@@ -18,28 +21,45 @@ export function ProjectCard({
 	date,
 	department,
 	redirect,
+	isSelected = false,
+	onClick,
 }: ArticleCardVerticalProps) {
 
 	const navigate = useNavigate()
 	const { classes } = useStyles()
 
 	return (
-		<Card withBorder radius="md" p={0} className={classes.card} onClick={() => navigate(redirect)} style={{cursor: 'pointer'}}>
+		<Card withBorder
+			  radius="md"
+			  p={0}
+			  className={isSelected ? classes.selectedCard : classes.card}
+			  style={{ cursor: 'pointer' }}
+			  onClick={onClick}
+		>
 			<Group noWrap spacing={0}>
-				<div className={classes.body}>
-					<Text transform="uppercase" color="dimmed" weight={700} size="xs">
-						<Badge >
-							{category}
-						</Badge>
-					</Text>
-					<Text className={classes.title} mt="lg" mb="md" size={'lg'}>
+				<div className={isSelected ? classes.bodySelected : classes.body}>
+					<Group direction={'row'} position={'apart'}>
+						<Text transform="uppercase" color="dimmed" weight={700} size="xs">
+							<Badge variant="gradient" gradient={{
+								from: isSelected ? '#eeeeee' : 'indigo',
+								to: isSelected ? 'gray' :'cyan'
+							}}
+							sx={{color: isSelected ? '#252525' : '#ffffff'}}>
+								{category}
+							</Badge>
+						</Text>
+						<ActionIcon size={'md'} onClick={() => navigate(redirect)} style={{ cursor: 'pointer' }}>
+							<Adjustments/>
+						</ActionIcon>
+					</Group>
+					<Text className={isSelected ? classes.titleSelected : classes.title} mt="lg" mb="md" size={'lg'}>
 						{title}
 					</Text>
 					<Group noWrap spacing="xs">
 						<Group spacing="xs" noWrap>
-							<Text size="md"style={{letterSpacing: '-0.08em'}}>{department}</Text>
+							<Text size="md" style={{ letterSpacing: '-0.08em' }}>{department}</Text>
 						</Group>
-						<Text size="md" color="dimmed">
+						<Text size="md" color="dimmed" className={isSelected ? classes.dateSelected : classes.date}>
 							{date}
 						</Text>
 					</Group>

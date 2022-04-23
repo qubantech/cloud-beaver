@@ -34,9 +34,7 @@ export const Chat = () => {
 				{
 					messages.map((m, i) =>
 						<Message key={i} model={m} >
-							<Avatar src={
-								'https://avatars.githubusercontent.com/u/57266314?v=4'
-							} name={ m.sender } />
+							<Avatar src={ 'https://avatars.githubusercontent.com/u/57266314?v=4' } name={ m.sender } />
 							<Message.Header sender={m.sender} sentTime={m.sentTime}/>
 						</Message>
 					)

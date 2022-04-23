@@ -1,5 +1,4 @@
 import React from 'react'
-import { Heart } from 'tabler-icons-react'
 import {
 	Card,
 	Image,
@@ -7,8 +6,6 @@ import {
 	Group,
 	Badge,
 	Button,
-	ActionIcon,
-	createStyles,
 	useMantineTheme,
 } from '@mantine/core'
 import { useStyles } from './project-preview-card.style'
@@ -22,9 +19,10 @@ interface BadgeCardProps {
 		emoji: string;
 		label: string;
 	}[];
+	onClick: () => void;
 }
 
-export function ProjectPreviewCard({ image, title, description, badges }: BadgeCardProps) {
+export function ProjectPreviewCard({ image, title, description, badges, onClick }: BadgeCardProps) {
 	const { classes } = useStyles()
 	const theme = useMantineTheme()
 
@@ -65,7 +63,7 @@ export function ProjectPreviewCard({ image, title, description, badges }: BadgeC
 			</Card.Section>
 
 			<Group mt="xs">
-				<Button radius="md" style={{ flex: 1 }}>
+				<Button radius="md" style={{ flex: 1 }} onClick={onClick}>
 					Панель управления
 				</Button>
 			</Group>

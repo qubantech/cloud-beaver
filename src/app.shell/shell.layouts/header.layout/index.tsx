@@ -9,6 +9,7 @@ import { useId, useScrollLock } from '@mantine/hooks'
 import { useHeaderStyles } from './header.style'
 import { UserAuthState } from '../../../app.shared/app.state'
 import { UserMenu } from './components/user-menu.component'
+import { Notifications } from '../../shell.components/notifications.component'
 
 
 interface HeaderSearchProps {
@@ -79,6 +80,9 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 				</NavLink>
 				<Group spacing={5} className={classes.links}>
 					{menuItems}
+					{
+						user && <Notifications/>
+					}
 					{
 						user
 						&& <UserMenu user={{

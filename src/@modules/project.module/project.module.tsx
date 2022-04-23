@@ -28,7 +28,7 @@ import {
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownRight } from 'tabler-icons-react'
 import { RingStats } from './components/ring-stats/ring-stats.component'
-import { TableView } from './components/table/table.component'
+import { LateTasksTableView } from './components/late-tasks-table/late-tasks-table.component'
 import { Card as MantineCard } from '@mantine/core'
 import Checkpoint from './checkpoint.module/checkpoint.module'
 import { DatePicker } from '@mantine/dates'
@@ -281,132 +281,193 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 
 	const ManagerReport = () => {
 		return <>
-
+			<RingStats
+				title={'Статистика по задачам'}
+				description={'Текущая контрольная точка: 4'}
+				completed={45}
+				total={147}
+				stats={[
+					{
+						'value': 26,
+						'label': 'Ожидает рассмотрения'
+					},
+					{
+						'value': 76,
+						'label': 'В работе'
+					}
+				]}
+			/>
+			<LateTasksTableView/>
 		</>
+	}
+
+	const ManagerReportCard = () => {
+		return <Paper withBorder p="xl" radius="md" style={{fontFamily: 'Greycliff CF'}}>
+			<Text style={{
+				fontFamily: 'Greycliff CF',
+				fontWeight: 600,
+				lineHeight: 1,
+			}} mb={'md'}>
+				Получить отчёт за последний период
+			</Text>
+			<Group direction={'column'}>
+				<Checkbox label="Включить статистику по задачам"/>
+				<Checkbox label="Включить прогноз"/>
+				<Button color={'gray'} leftIcon={<Download/>}>
+					Загрузить отчёт
+				</Button>
+			</Group>
+		</Paper>
+	}
+
+	const ManagerPredictedStats = () => {
+		return <StatsGridIcons {...{
+			data: [
+				{
+					title: 'Вклад контрольной точки в IQ за последнй год',
+					value: '+12.31 IQ',
+					diff: 34
+				},
+				{
+					title: 'Прогноз вклада в следующий период',
+					value: '-2.91 IQ',
+					diff: -23
+				},
+			]
+		}}/>
 	}
 
 	const ImplementerStats = () => {
 		return <>
+			<RingStats
+				title={'Мои задачи'}
+				description={'Текущая контрольная точка: 4'}
+				completed={5}
+				total={11}
+				stats={[
+					{
+						'value': 2,
+						'label': 'Ожидает рассмотрения'
+					},
+					{
+						'value': 1,
+						'label': 'В работе'
+					}
+				]}
+			/>
 		</>
 	}
 
 	const ImplementerTasks = () => {
 		return <>
+			<LateTasksTableView/>
 		</>
+	}
+
+	const Checkpoint = () => {
+
+		const DATA: {
+			title: string,
+			date?: string,
+			status: 'completed' | 'late' | 'cancelled' | 'current' | 'planned'
+			onClick?: () => void
+		}[] = [
+			{
+				date: '22.01.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'completed',
+				onClick: () => navigate('1')
+			},
+			{
+				date: '11.02.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'completed',
+				onClick: () => navigate('2')
+			},
+			{
+				date: '23.02.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'late',
+				onClick: () => navigate('3')
+			},
+			{
+				date: '14.04.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'current',
+				onClick: () => navigate('4')
+			},
+			{
+				date: '22.02.2025',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'planned',
+				onClick: () => navigate('5')
+			},
+		]
+
+		return <Container mb={'xl'}>
+			<Group position={'apart'} direction={'row'}>
+				<Title order={3} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
+					Контрольные точки
+				</Title>
+				{
+					showCheckpointCreate &&
+					<ButtonMenuCreate/>
+				}
+			</Group>
+			<Timeline active={3} bulletSize={24} lineWidth={2}>
+				{
+					DATA.map(data =>
+						<Timeline.Item key={data.date} bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card {...data}/>
+						</Timeline.Item>
+					)
+				}
+			</Timeline>
+		</Container>
 	}
 
 	return <Grid columns={12}>
 		<Grid.Col span={8}>
-
 			<Title order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
 				{projectName}
 			</Title>
 			<ProjectTimings/>
-
 			<SimpleGrid cols={2}>
 				<SimpleGrid cols={1}>
-					<RingStats
-						title={'Статистика по задачам'}
-						description={'Текущая контрольная точка: 4'}
-						completed={45}
-						total={147}
-						stats={[
-							{
-								'value': 26,
-								'label': 'Ожидает рассмотрения'
-							},
-							{
-								'value': 76,
-								'label': 'В работе'
-							}
-						]}
-					/>
-					<TableView/>
+					{
+						user == 'manager' &&
+						<ManagerReport/>
+					}
+					{
+						user == 'implementer' &&
+						<ImplementerStats/>
+					}
 				</SimpleGrid>
 				{
 					user == 'manager' &&
 					<SimpleGrid>
-						<Paper withBorder p="xl" radius="md" style={{fontFamily: 'Greycliff CF'}}>
-							<Text style={{
-								fontFamily: 'Greycliff CF',
-								fontWeight: 600,
-								lineHeight: 1,
-							}} mb={'md'}>
-								Получить отчёт за последний период
-							</Text>
-							<Group direction={'column'}>
-								<Checkbox label="Включить статистику по задачам"/>
-								<Checkbox label="Включить прогноз"/>
-								<Button color={'gray'} leftIcon={<Download/>}>
-									Загрузить отчёт
-								</Button>
-							</Group>
-						</Paper>
-						<StatsGridIcons {...{
-							data: [
-								{
-									title: 'Вклад контрольной точки в IQ за последнй год',
-									value: '+12.31 IQ',
-									diff: 34
-								},
-								{
-									title: 'Прогноз вклада в следующий период',
-									value: '-2.91 IQ',
-									diff: -23
-								},
-							]
-						}}/>
+						<ManagerReportCard/>
+						<ManagerPredictedStats/>
 					</SimpleGrid>
 				}
+				{
+					user == 'implementer' &&
+					<ImplementerTasks/>
+				}
 			</SimpleGrid>
-
 		</Grid.Col>
 		<Grid.Col span={4}>
-			<Container mb={'xl'}>
-				<Group position={'apart'} direction={'row'}>
-					<Title order={3} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
-						Контрольные точки
-					</Title>
-					{
-						showCheckpointCreate && <ButtonMenuCreate/>
-					}
-				</Group>
-				<Timeline active={3} bulletSize={24} lineWidth={2}>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'completed'}
-							  onClick={() => navigate('1')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'completed'}
-							  onClick={() => navigate('2')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'late'}
-							  onClick={() => navigate('3')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'current'}
-							  onClick={() => navigate('4')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'planned'}/>
-					</Timeline.Item>
-				</Timeline>
-			</Container>
+			<Checkpoint/>
 		</Grid.Col>
 	</Grid>
 }

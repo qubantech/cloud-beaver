@@ -409,18 +409,23 @@ const AnalyticsTab = () => {
 const ProjectsDashboard = () => {
 
 	const [ activeTab, setActiveTab ] = useState(0)
+	const user = useRecoilValue(UserAuthState)
 
 	return <Container mt={'lg'}>
 		<Tabs active={activeTab} onTabChange={setActiveTab}>
 			<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
 				<OverviewTab/>
 			</Tabs.Tab>
-			<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
-				<InfoTab/>
-			</Tabs.Tab>
-			<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
-				<AnalyticsTab/>
-			</Tabs.Tab>
+			{
+				user == 'manager' && <>
+					<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
+						<InfoTab/>
+					</Tabs.Tab>
+					<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
+						<AnalyticsTab/>
+					</Tabs.Tab>
+				</>
+			}
 		</Tabs>
 	</Container>
 }

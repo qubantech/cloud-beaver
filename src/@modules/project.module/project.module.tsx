@@ -229,22 +229,15 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 		}
 	}, [user])
 
-	const onEditClick = () => {
-		setEditDates(() => !editDates)
-	}
-
-	return <Grid columns={12}>
-		<Grid.Col span={8}>
-			<Title order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
-				{projectName}
-			</Title>
+	const ProjectTimings = () => {
+		return <>
 			<MantineCard mb={'md'} style={{fontFamily: 'Greycliff CF'}}>
 				<Grid columns={12}>
 					{
-						allowEdit && <Grid.Col span={1}> 
+						allowEdit && <Grid.Col span={1}>
 							<ActionIcon size="xl" radius="xl" onClick={onEditClick}>
 								<Edit />
-							</ActionIcon> 
+							</ActionIcon>
 						</Grid.Col>
 					}
 					<Grid.Col span={allowEdit && 11 || 12}>
@@ -279,6 +272,37 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 					</Grid.Col>
 				</Grid>
 			</MantineCard>
+		</>
+	}
+
+	const onEditClick = () => {
+		setEditDates(() => !editDates)
+	}
+
+	const ManagerReport = () => {
+		return <>
+
+		</>
+	}
+
+	const ImplementerStats = () => {
+		return <>
+		</>
+	}
+
+	const ImplementerTasks = () => {
+		return <>
+		</>
+	}
+
+	return <Grid columns={12}>
+		<Grid.Col span={8}>
+
+			<Title order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
+				{projectName}
+			</Title>
+			<ProjectTimings/>
+
 			<SimpleGrid cols={2}>
 				<SimpleGrid cols={1}>
 					<RingStats
@@ -299,39 +323,43 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 					/>
 					<TableView/>
 				</SimpleGrid>
-				<SimpleGrid>
-					<Paper withBorder p="xl" radius="md" style={{fontFamily: 'Greycliff CF'}}>
-						<Text style={{
-							fontFamily: 'Greycliff CF',
-							fontWeight: 600,
-							lineHeight: 1,
-						}} mb={'md'}>
-							Получить отчёт за последний период
-						</Text>
-						<Group direction={'column'}>
-							<Checkbox label="Включить статистику по задачам"/>
-							<Checkbox label="Включить прогноз"/>
-							<Button color={'gray'} leftIcon={<Download/>}>
-								Загрузить отчёт
-							</Button>
-						</Group>
-					</Paper>
-					<StatsGridIcons {...{
-						data: [
-							{
-								title: 'Вклад контрольной точки в IQ за последнй год',
-								value: '+12.31 IQ',
-								diff: 34
-							},
-							{
-								title: 'Прогноз вклада в следующий период',
-								value: '-2.91 IQ',
-								diff: -23
-							},
-						]
-					}}/>
-				</SimpleGrid>
+				{
+					user == 'manager' &&
+					<SimpleGrid>
+						<Paper withBorder p="xl" radius="md" style={{fontFamily: 'Greycliff CF'}}>
+							<Text style={{
+								fontFamily: 'Greycliff CF',
+								fontWeight: 600,
+								lineHeight: 1,
+							}} mb={'md'}>
+								Получить отчёт за последний период
+							</Text>
+							<Group direction={'column'}>
+								<Checkbox label="Включить статистику по задачам"/>
+								<Checkbox label="Включить прогноз"/>
+								<Button color={'gray'} leftIcon={<Download/>}>
+									Загрузить отчёт
+								</Button>
+							</Group>
+						</Paper>
+						<StatsGridIcons {...{
+							data: [
+								{
+									title: 'Вклад контрольной точки в IQ за последнй год',
+									value: '+12.31 IQ',
+									diff: 34
+								},
+								{
+									title: 'Прогноз вклада в следующий период',
+									value: '-2.91 IQ',
+									diff: -23
+								},
+							]
+						}}/>
+					</SimpleGrid>
+				}
 			</SimpleGrid>
+
 		</Grid.Col>
 		<Grid.Col span={4}>
 			<Container mb={'xl'}>
@@ -393,6 +421,7 @@ const ReviewTab = () => {
 
 const ProjectBoard = () => {
 
+	const user = useRecoilValue(UserAuthState)
 	const {id} = useParams()
 
 	return <Container mt={'lg'}>
@@ -402,12 +431,16 @@ const ProjectBoard = () => {
 					<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
 						<OverviewTab projectName={`Проект ${id}`}/>
 					</Tabs.Tab>
-					<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
-						<ExtendedModeTab/>
-					</Tabs.Tab>
-					<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
-						<ReviewTab/>
-					</Tabs.Tab>
+					{
+						user == 'manager' && <>
+							<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
+								<ExtendedModeTab/>
+							</Tabs.Tab>
+							<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
+								<ReviewTab/>
+							</Tabs.Tab>
+						</>
+					}
 				</Tabs>
 			}/>
 			<Route path={':id'} element={<Checkpoint/>}/>

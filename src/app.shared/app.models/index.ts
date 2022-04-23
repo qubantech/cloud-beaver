@@ -28,8 +28,6 @@ type Checkpoint = {
     documents: string[] | undefined,
     report: string,
     conferences: string[] | undefined,
-    timeDeviation: number,
-    costDeviation: number,
     tasks: string[] | undefined
     iq: number,
     deltaBudget: number,

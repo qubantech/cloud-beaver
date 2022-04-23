@@ -25,6 +25,7 @@ import {
 	Recommendation,
 	MainMetricWidget
 } from './components'
+import { Chat } from './layouts/chat.layout/chat.component'
 
 
 const ProjectsContainer = () => {
@@ -358,6 +359,7 @@ export const Projects = () => {
 		<Routes>
 			<Route index element={<ProjectsDashboard/>}/>
 			<Route path={':id'} element={<ProjectBoard/>}/>
+			<Route path={'chat'} element={<Chat/>}/>
 		</Routes>
 	)
 }

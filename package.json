@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@asseinfo/react-kanban": "^2.2.0",
+    "@chatscope/chat-ui-kit-react": "^1.8.3",
+    "@chatscope/chat-ui-kit-styles": "^1.2.3",
     "@firebase/auth-types": "^0.11.0",
     "@firebase/firestore-types": "^2.5.0",
     "@mantine/core": "^4.1.3",

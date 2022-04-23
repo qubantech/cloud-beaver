@@ -28,7 +28,7 @@ export const KanbanBoard = () => {
 			color: 'blue'
 		},
 		'Завершено': {
-			items: ['7'],
+			items: ['10'],
 			color: 'green'
 		}
 	})

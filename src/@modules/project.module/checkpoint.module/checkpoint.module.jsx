@@ -43,11 +43,6 @@ export const Kanban = () => {
 		}
 	})
 
-	// useEffect(() => {
-	// 	const data = useTa
-	// },[])
-
-
 	const [activeId, setActiveId] = useState(null)
 
 	const sensors = useSensors(
@@ -174,7 +169,7 @@ export const Kanban = () => {
 			onDragEnd={handleDragEnd}
 		>
 			<Container>
-				<Group direction={'row'} position={'center'}>
+				<Group direction={'row'} position={'center'} spacing={0}>
 					{Object.keys(itemGroups).map((group) => (
 						<div key={group} style={{ alignSelf: 'start'}}>
 							<Droppable
@@ -188,7 +183,7 @@ export const Kanban = () => {
 					))}
 				</Group>
 			</Container>
-			<DragOverlay>{activeId ? <TaskReview id={activeId} title={ 'title' } description={ 'description' } dragOverlay/> : null}</DragOverlay>
+			<DragOverlay>{activeId ? <TaskReview id={activeId} title={ 'Название задания' } description={ 'Описание' } dragOverlay/> : null}</DragOverlay>
 		</DndContext>
 	)
 }

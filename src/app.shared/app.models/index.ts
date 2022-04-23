@@ -78,8 +78,8 @@ type Task = {
     budgetPlan: number,
     budgetFact: number,
     iq: number,
-    deltaBudget: number,
-    deltaTime: number
+    deltaBudget?: number,
+    deltaTime?: number
 }
 
 type Application = {

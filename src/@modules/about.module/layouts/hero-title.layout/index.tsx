@@ -2,7 +2,7 @@ import React from 'react'
 import { createStyles, Container, Text, Button, Group, useMantineTheme } from '@mantine/core'
 import { BrandGithub } from 'tabler-icons-react'
 import { useRecoilValue } from 'recoil'
-import { UserAuthState } from '../../../app.shared/app.state'
+import { UserAuthState } from '../../../../app.shared/app.state'
 import { useNavigate } from 'react-router-dom'
 
 const BREAKPOINT = '@media (max-width: 1060px)'

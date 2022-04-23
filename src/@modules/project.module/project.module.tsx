@@ -1,61 +1,111 @@
 import React from 'react'
-import { Container, Timeline, Text, Tabs } from '@mantine/core'
+import { Container, Timeline, Text, Tabs, Grid, Badge, Paper, Group, ScrollArea, Spoiler } from '@mantine/core'
 import { GitBranch, GitCommit, GitPullRequest, MessageCircle, MessageDots, Photo, Settings } from 'tabler-icons-react'
-import { Route, Routes, useParams } from 'react-router-dom'
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 
 
 const ProjectBoard = () => {
 
 	const { id } = useParams()
+	const navigate = useNavigate()
+
+	const Card = ({
+		title,
+		date,
+		status,
+		onClick = () => {return}
+	}: {
+		title: string,
+		date?: string,
+		status: 'completed' | 'late' | 'cancelled' | 'current' | 'planned'
+		onClick?: () => void
+	}) => {
+
+		const statusColor =
+			status == 'completed' ? 'green' :
+				status == 'late' ? 'red' :
+					status == 'cancelled' ? 'red' :
+						status == 'current' ? 'yellow' :
+							status == 'planned' ? 'violet' : ''
+
+		const dateTitle =
+			status == 'completed' ? `Завершено ${date}` :
+				status == 'late' ? 'Задерживается' :
+					status == 'cancelled' ? 'Отменено' :
+						status == 'current' ? `В работе с ${date}` :
+							status == 'planned' ? `Запланировано на ${date}` : ''
+
+
+		return <Paper p={'xs'} onClick={onClick} style={{ cursor: 'pointer' }}>
+			<Group direction={'row'}>
+				<Text color="dimmed" size="sm" mb={0} style={{ color: '#bbbbbb' }}>
+					<Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
+					</Spoiler>
+					{title}
+				</Text>
+				<Badge color={statusColor}>
+					<Text size="xs" mt={4}>
+						{dateTitle}
+					</Text>
+				</Badge>
+			</Group>
+		</Paper>
+	}
 
 	return <Container mt={'lg'}>
 		<Tabs>
-			<Tabs.Tab label="Gallery" icon={<Photo size={14} />}>
+			<Tabs.Tab label="Gallery" icon={<Photo size={14}/>}>
 				Gallery tab content
 			</Tabs.Tab>
-			<Tabs.Tab label="Messages" icon={<MessageCircle size={14} />}>
+			<Tabs.Tab label="Messages" icon={<MessageCircle size={14}/>}>
 				Messages tab content
 			</Tabs.Tab>
-			<Tabs.Tab label="Settings" icon={<Settings size={14} />}>
+			<Tabs.Tab label="Settings" icon={<Settings size={14}/>}>
 				Settings tab content
 			</Tabs.Tab>
 		</Tabs>
-		<Text size="sm" mt="sm" color="dimmed">
-			{id}
-		</Text>
-		<Container>
-			<Timeline active={1} bulletSize={24} lineWidth={2}>
-				<Timeline.Item bullet={<GitBranch size={12} />} title="New branch">
-					<Text color="dimmed" size="sm">
-						You&apos;ve created new branch
-						<Text variant="link" component="span" inherit>fix-notifications</Text>
-						from master
-					</Text>
-					<Text size="xs" mt={4}>2 hours ago</Text>
-				</Timeline.Item>
-				<Timeline.Item bullet={<GitCommit size={12} />} title="Commits">
-					<Text color="dimmed" size="sm">
-						You&apos;ve pushed 23 commits to
-						<Text variant="link" component="span" inherit>fix-notifications branch</Text>
-					</Text>
-					<Text size="xs" mt={4}>52 minutes ago</Text>
-				</Timeline.Item>
-				<Timeline.Item title="Pull request" bullet={<GitPullRequest size={12} />} lineVariant="dashed">
-					<Text color="dimmed" size="sm">
-						You&apos;ve submitted a pull request
-						<Text variant="link" component="span" inherit>Fix incorrect notification message (#187)</Text>
-					</Text>
-					<Text size="xs" mt={4}>34 minutes ago</Text>
-				</Timeline.Item>
-				<Timeline.Item title="Code review" bullet={<MessageDots size={12} />}>
-					<Text color="dimmed" size="sm">
-						<Text variant="link" component="span" inherit>Robert Gluesticker</Text>
-						left a code review on your pull request
-					</Text>
-					<Text size="xs" mt={4}>12 minutes ago</Text>
-				</Timeline.Item>
-			</Timeline>
-		</Container>
+		<Grid columns={12}>
+			<Grid.Col span={4}>
+				<Container>
+					<Timeline active={3} bulletSize={24} lineWidth={2}>
+
+						<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card date={'22.02.2023'}
+								  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
+								  status={'completed'}
+								  onClick={() => navigate('1')}
+							/>
+						</Timeline.Item>
+						<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card date={'22.02.2023'}
+								  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
+								  status={'completed'}
+								  onClick={() => navigate('2')}
+							/>
+						</Timeline.Item>
+						<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card date={'22.02.2023'}
+								  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
+								  status={'late'}
+								  onClick={() => navigate('3')}
+							/>
+						</Timeline.Item>
+						<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card date={'22.02.2023'}
+								  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
+								  status={'current'}
+								  onClick={() => navigate('4')}
+							/>
+						</Timeline.Item>
+						<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card date={'22.02.2023'}
+								  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
+								  status={'planned'}/>
+						</Timeline.Item>
+					</Timeline>
+				</Container>
+			</Grid.Col>
+		</Grid>
 	</Container>
 }
 

@@ -5,7 +5,7 @@ import { Module } from '../../app.core'
 
 export const AboutModule = Module(<About/>)({
 	routeProps: {
-		path: '/',
+		path: '/*',
 	},
 	name: 'About'
 })

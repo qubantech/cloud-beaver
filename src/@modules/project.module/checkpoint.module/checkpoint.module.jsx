@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Container, Grid, Group} from '@mantine/core'
 import { Route, Routes } from 'react-router-dom'
-import { Project } from '../project.module/project.module'
+import { Project } from '../project.module'
 
 import {
 	DndContext,
@@ -196,12 +196,7 @@ export const Kanban = () => {
 
 const Checkpoint = () => {
 	return <Container>
-		<Routes>
-			{/*<Route path={'/'} element={<Project/>}/>*/}
-			<Routes path={':id'} element={<Kanban/>}>
-				<Route path={':id'} element={<>dasjdkjaskdjsa</>}/>
-			</Routes>
-		</Routes>
+		<Kanban/>
 	</Container>
 }
 

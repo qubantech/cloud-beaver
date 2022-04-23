@@ -16,11 +16,12 @@ import {
 	SimpleGrid, Menu, useMantineTheme
 } from '@mantine/core'
 import { ChevronDown, GitBranch, MessageCircle, Package, Photo, Settings, SquareCheck } from 'tabler-icons-react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownRight } from 'tabler-icons-react'
 import { RingStats } from './components/ring-stats/ring-stats.component'
 import { TableView } from './components/table/table.component'
 import { Card as MantineCard } from '@mantine/core'
+import Checkpoint from './checkpoint.module/checkpoint.module'
 
 
 const useStyles = createStyles((theme) => ({
@@ -189,14 +190,14 @@ const ButtonMenuSettings = () => {
 }
 
 
-const OverviewTab = () => {
+const OverviewTab = ({projectName}: {projectName: string}) => {
 
 	const navigate = useNavigate()
 
 	return <Grid columns={12}>
 		<Grid.Col span={8}>
 			<Title order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
-				Название проекта
+				{projectName}
 			</Title>
 			<MantineCard mb={'md'} style={{fontFamily: 'Greycliff CF'}}>
 				<Group>
@@ -304,18 +305,25 @@ const ReviewTab = () => {
 
 const ProjectBoard = () => {
 
+	const {id} = useParams()
+
 	return <Container mt={'lg'}>
-		<Tabs>
-			<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
-				<OverviewTab/>
-			</Tabs.Tab>
-			<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
-				<ExtendedModeTab/>
-			</Tabs.Tab>
-			<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
-				<ReviewTab/>
-			</Tabs.Tab>
-		</Tabs>
+		<Routes>
+			<Route index element={
+				<Tabs>
+					<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
+						<OverviewTab projectName={`Проект ${id}`}/>
+					</Tabs.Tab>
+					<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
+						<ExtendedModeTab/>
+					</Tabs.Tab>
+					<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
+						<ReviewTab/>
+					</Tabs.Tab>
+				</Tabs>
+			}/>
+			<Route path={':id'} element={<Checkpoint/>}/>
+		</Routes>
 	</Container>
 }
 
@@ -323,7 +331,7 @@ const ProjectBoard = () => {
 export const Project = () => {
 	return <>
 		<Routes>
-			<Route path={':id'} element={<ProjectBoard/>}/>
+			<Route path={':id/*'} element={<ProjectBoard/>}/>
 		</Routes>
 	</>
 }

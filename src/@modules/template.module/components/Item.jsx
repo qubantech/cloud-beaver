@@ -12,7 +12,7 @@ const Item = ({ id, dragOverlay }) => {
 		<div style={style}>
 			<Card shadow="sm" p="lg">
 				<Group position="apart" style={{ marginBottom: 5 }}>
-					<Text weight={500}>Norway Fjord Adventures</Text>
+					<Text weight={ 500 }>Norway Fjord Adventures</Text>
 				</Group>
 
 				<Text size="sm" style={{ lineHeight: 1.5 }}>

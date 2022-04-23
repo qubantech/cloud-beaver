@@ -11,3 +11,4 @@ export const insertAtIndex = (array, index, item) => {
 export const arrayMove = (array, oldIndex, newIndex) => {
 	return dndKitArrayMove(array, oldIndex, newIndex)
 }
+

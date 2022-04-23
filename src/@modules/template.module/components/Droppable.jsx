@@ -14,7 +14,7 @@ const Droppable = ({ id, items, title, color }) => {
 	const { classes, theme } = useStyles()
 
 	return (
-		<SortableContext id={id} items={items} strategy={rectSortingStrategy}>
+		<SortableContext id={ id } items={ items } strategy={ rectSortingStrategy }>
 			<Group direction='column' className={classes.list} ref={setNodeRef} style={{margin: '5px',}}>
 				<Badge color={ color }>{ title }</Badge>
 

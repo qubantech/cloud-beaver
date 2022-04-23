@@ -27,7 +27,7 @@ const SortableItem = ({ id }) => {
 			{...attributes}
 			{...listeners}
 		>
-			<TaskReview  id={id} title={ 'title' } description={ 'description' }/>
+			<TaskReview  id={id} title={ 'Название задания' } description={ 'Описание' }/>
 		</div>
 	)
 }

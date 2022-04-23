@@ -9,29 +9,11 @@ import {
 	BrandYoutube,
 	Camera,
 	Plus,
-	ShoppingCart,
 } from 'tabler-icons-react'
 import { FooterLinks, HeaderMenu, NavbarSegmented } from './shell.layouts'
 import { FabButton } from './shell.components/fab.component'
 import { useNavigate } from 'react-router-dom'
 
-
-const DATA = [
-	{
-		label: 'Demos',
-		link: '',
-		links: [
-			{ link: '/template', label: 'Template', icon: BellRinging },
-		]
-	},
-	{
-		label: 'System',
-		link: '/template',
-		links: [
-			{ link: '/12', label: 'Template Relative', icon: ShoppingCart },
-		]
-	},
-]
 
 const Styles = (theme: MantineTheme) => ({
 	main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
@@ -44,6 +26,22 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 	const showNavbar = useRecoilValue(NavbarState)
 
 	const logoutCallback = () => console.log('Logout')
+
+
+	const DATA = [
+		{
+			label: 'Demos',
+			link: '',
+			links: [
+				{ link: '/template', label: 'Template', icon: BellRinging },
+			]
+		},
+		{
+			label: 'Проекты',
+			link: '/projects',
+			links: []
+		},
+	]
 
 	const Header = <HeaderMenu links={DATA}/>
 

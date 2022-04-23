@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Center,
 	Container,
@@ -9,10 +9,10 @@ import {
 	Divider,
 	Grid,
 	Group,
-	Title, Accordion, Paper, Button
+	Title, Accordion, Paper, Button, Modal, Input, Autocomplete, MultiSelect
 } from '@mantine/core'
 import { DateRangePicker } from '@mantine/dates'
-import { MessageCircle, Photo, Settings } from 'tabler-icons-react'
+import { At, MessageCircle, Photo, Settings } from 'tabler-icons-react'
 import { StatsRingCard } from '../../app.shared/app.components/stats-ring-card.component'
 import {
 	ProjectCard,
@@ -26,6 +26,9 @@ import {
 } from './components'
 import { useNavigate } from 'react-router-dom'
 import { Chat } from './layouts/chat.layout/chat.component'
+import { useRecoilValue } from 'recoil'
+import { UserAuthState } from '../../app.shared/app.state'
+import { useUserList } from '../../app.shared/app.services/app.user.service'
 
 
 const ProjectsContainer = ({ cardSelected, setCardSelected }: any) => {
@@ -64,45 +67,118 @@ const OverviewTab = () => {
 	const navigate = useNavigate()
 	const [ cardSelected, setCardSelected ] = useState<number | null>(null)
 
+	const user = useRecoilValue(UserAuthState)
+
+	const [showCreateProject, setShowCreateProject] = useState(false)
+	const [showInfographics, setShowInfographics] = useState(false)
+
+	const [showModal, setShowModal] = useState(false)
+
+	useEffect(() => {
+		if(!user){
+			navigate('/')
+		}
+		if(user == 'manager'){
+			setShowCreateProject(true)
+			setShowInfographics(true)
+			return
+		}
+		if(user == 'implementer'){
+			setShowCreateProject(false)
+			setShowInfographics(false)
+			return
+		}
+	}, [user])
+
+	const onCreateProject = () => {
+		setShowModal(true)
+	}
+
+	const onCreateConference = () => {
+		navigate('/conference')
+	}
+
+	const ProjectCreationForm = () => {
+
+		const user = useUserList()
+
+		useEffect(() => {
+			console.log(user.watchedObject)
+		}, [])
+
+		const onCreateProject = () => {
+			console.log('Создать проект')
+		}
+
+		return <SimpleGrid cols={1}>
+			<Input icon={<At />} placeholder="Название проекта"/>
+			<MultiSelect
+				data={[
+					{ value: 'wiwiwi', label: 'Олег Лихогуб' },
+					{ value: 'ng', label: 'Максим Беспалов' },
+					{ value: 'svelte', label: 'Никита Ванюченко' },
+				]}
+				label="Ответственные"
+				placeholder="Выбрать ответственных"
+			/>
+			<Button onClick={onCreateProject}>
+				Создать проект
+			</Button>
+		</SimpleGrid>
+	}
+
 	return <>
 		<Container my="md">
+			<Modal
+				opened={showModal}
+				onClose={() => setShowModal(false)}
+				title="Создание проекта"
+			>
+				{<ProjectCreationForm/>}
+			</Modal>
 			<Grid columns={12} gutter={28}>
 				<Grid.Col span={8}>
 					<Group position={'apart'} my={'xs'}>
 						<Title style={{ color: '#FFFFFF' }} order={2}>
 							Проекты
 						</Title>
-						<ButtonMenu/>
+						{
+							showCreateProject &&
+							<ButtonMenu onConferenceCreate={onCreateConference} onProjectCreate={onCreateProject}/>
+						}
 					</Group>
 					<ProjectsContainer cardSelected={cardSelected} setCardSelected={setCardSelected}/>
 				</Grid.Col>
 				<Grid.Col span={4}>
-					<StatsSegments
-						{...{
-							total: '117,75',
-							diff: 18,
-							data: [
-								{
-									label: 'Закрыто в срок',
-									count: '204',
-									part: 59,
-									color: '#1cabe5'
-								},
-								{
-									label: 'Превышен срок',
-									count: '110',
-									part: 35,
-									color: '#eab86c'
-								},
-								{
-									label: 'Отменено',
-									count: '31',
-									part: 6,
-									color: '#be1b34'
-								}
-							]
-						}}
-					/>
+					{
+						showInfographics &&
+						<StatsSegments
+							{...{
+								total: '117,75',
+								diff: 18,
+								data: [
+									{
+										label: 'Закрыто в срок',
+										count: '204',
+										part: 59,
+										color: '#1cabe5'
+									},
+									{
+										label: 'Превышен срок',
+										count: '110',
+										part: 35,
+										color: '#eab86c'
+									},
+									{
+										label: 'Отменено',
+										count: '31',
+										part: 6,
+										color: '#be1b34'
+									}
+								]
+							}}
+						/>
+					}
 					{
 						cardSelected &&
 						<>
@@ -119,16 +195,16 @@ const OverviewTab = () => {
 								'Отдел по курортам и туризму\n',
 								badges: [
 									{
-										'emoji': '☀️',
-										'label': 'Sunny weather'
+										'emoji': '🖨️️',
+										'label': 'Документооборот'
 									},
 									{
-										'emoji': '🦓',
-										'label': 'Onsite zoo'
+										'emoji': '🌐',
+										'label': 'Интернет'
 									},
 									{
-										'emoji': '🌊',
-										'label': 'Sea'
+										'emoji': '💫',
+										'label': 'Жилищно-комуннальные услуги'
 									}
 								]
 							}}

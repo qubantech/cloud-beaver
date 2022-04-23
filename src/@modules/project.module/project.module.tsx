@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Container,
 	Timeline,
@@ -13,15 +13,27 @@ import {
 	Title,
 	createStyles,
 	ThemeIcon,
-	SimpleGrid, Menu, useMantineTheme
+	SimpleGrid, Menu, useMantineTheme, Code, ActionIcon, Checkbox
 } from '@mantine/core'
-import { ChevronDown, GitBranch, MessageCircle, Package, Photo, Settings, SquareCheck } from 'tabler-icons-react'
+import {
+	Adjustments,
+	ChevronDown, Download, Edit,
+	GitBranch,
+	MessageCircle,
+	Package,
+	Photo,
+	Settings,
+	SquareCheck
+} from 'tabler-icons-react'
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownRight } from 'tabler-icons-react'
 import { RingStats } from './components/ring-stats/ring-stats.component'
 import { TableView } from './components/table/table.component'
 import { Card as MantineCard } from '@mantine/core'
 import Checkpoint from './checkpoint.module/checkpoint.module'
+import { DatePicker } from '@mantine/dates'
+import { useRecoilValue } from 'recoil'
+import { UserAuthState } from '../../app.shared/app.state'
 
 
 const useStyles = createStyles((theme) => ({
@@ -192,7 +204,34 @@ const ButtonMenuSettings = () => {
 
 const OverviewTab = ({projectName}: {projectName: string}) => {
 
+	const user = useRecoilValue(UserAuthState)
 	const navigate = useNavigate()
+
+	const [allowEdit, setAllowEdit] = useState(false)
+	const [editDates, setEditDates] = useState(false)
+
+	const [showCheckpointCreate, setShowCheckpointCreate] = useState(false)
+
+	useEffect(() => {
+		if (!user) {
+			setAllowEdit(false)
+			return
+		}
+		if (user == 'implementer') {
+			setAllowEdit(false)
+			setShowCheckpointCreate(false)
+			return
+		}
+		if (user == 'manager') {
+			setAllowEdit(true)
+			setShowCheckpointCreate(true)
+			return
+		}
+	}, [user])
+
+	const onEditClick = () => {
+		setEditDates(() => !editDates)
+	}
 
 	return <Grid columns={12}>
 		<Grid.Col span={8}>
@@ -200,16 +239,45 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 				{projectName}
 			</Title>
 			<MantineCard mb={'md'} style={{fontFamily: 'Greycliff CF'}}>
-				<Group>
-					<Text>
-						Дата начала проекта:
-					</Text>
-				</Group>
-				<Group>
-					<Text>
-						Дата планируемого завершения проекта:
-					</Text>
-				</Group>
+				<Grid columns={12}>
+					{
+						allowEdit && <Grid.Col span={1}> 
+							<ActionIcon size="xl" radius="xl" onClick={onEditClick}>
+								<Edit />
+							</ActionIcon> 
+						</Grid.Col>
+					}
+					<Grid.Col span={allowEdit && 11 || 12}>
+						<SimpleGrid spacing={'xs'}>
+							<Group direction={'row'} position={'apart'}>
+								<Text>
+									Дата начала проекта:
+								</Text>
+								{
+									!editDates
+									&& <Code block>21.02.2002</Code>
+									|| <DatePicker
+										locale="ru"
+										defaultValue={new Date()}
+									/>
+								}
+							</Group>
+							<Group direction={'row'} position={'apart'}>
+								<Text>
+									Дата планируемого завершения проекта:
+								</Text>
+								{
+									!editDates
+									&& <Code block>21.02.2002</Code>
+									|| <DatePicker
+										locale="ru"
+										defaultValue={new Date()}
+									/>
+								}
+							</Group>
+						</SimpleGrid>
+					</Grid.Col>
+				</Grid>
 			</MantineCard>
 			<SimpleGrid cols={2}>
 				<SimpleGrid cols={1}>
@@ -231,20 +299,38 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 					/>
 					<TableView/>
 				</SimpleGrid>
-				<StatsGridIcons {...{
-					data: [
-						{
-							title: 'Вклад контрольной точки в IQ за последнй год',
-							value: '+12.31 IQ',
-							diff: 34
-						},
-						{
-							title: 'Прогноз вклада в следующий период',
-							value: '-2.91 IQ',
-							diff: -23
-						},
-					]
-				}}/>
+				<SimpleGrid>
+					<Paper withBorder p="xl" radius="md" style={{fontFamily: 'Greycliff CF'}}>
+						<Text style={{
+							fontFamily: 'Greycliff CF',
+							fontWeight: 600,
+							lineHeight: 1,
+						}} mb={'md'}>
+							Получить отчёт за последний период
+						</Text>
+						<Group direction={'column'}>
+							<Checkbox label="Включить статистику по задачам"/>
+							<Checkbox label="Включить прогноз"/>
+							<Button color={'gray'} leftIcon={<Download/>}>
+								Загрузить отчёт
+							</Button>
+						</Group>
+					</Paper>
+					<StatsGridIcons {...{
+						data: [
+							{
+								title: 'Вклад контрольной точки в IQ за последнй год',
+								value: '+12.31 IQ',
+								diff: 34
+							},
+							{
+								title: 'Прогноз вклада в следующий период',
+								value: '-2.91 IQ',
+								diff: -23
+							},
+						]
+					}}/>
+				</SimpleGrid>
 			</SimpleGrid>
 		</Grid.Col>
 		<Grid.Col span={4}>
@@ -253,7 +339,9 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 					<Title order={3} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
 						Контрольные точки
 					</Title>
-					<ButtonMenuCreate/>
+					{
+						showCheckpointCreate && <ButtonMenuCreate/>
+					}
 				</Group>
 				<Timeline active={3} bulletSize={24} lineWidth={2}>
 					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">

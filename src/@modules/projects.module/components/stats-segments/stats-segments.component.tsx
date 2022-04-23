@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStyles, Progress, Box, Text, Group, Paper, SimpleGrid } from '@mantine/core'
+import { createStyles, Progress, Box, Text, Group, Paper, SimpleGrid, Title } from '@mantine/core'
 import { ArrowUpRight, DeviceAnalytics } from 'tabler-icons-react'
 import { useStyles } from './stats-segments.style'
 
@@ -41,21 +41,22 @@ export function StatsSegments({ total, diff, data }: StatsSegmentsProps) {
 
 	return (
 		<Paper withBorder p="md" radius="md">
+
 			<Group position="apart">
 				<Group align="flex-end" spacing="xs">
-					<Text size="xl" weight={700}>
+					<Title order={3}>
 						{total}
-					</Text>
-					<Text color="teal" className={classes.diff} size="sm" weight={700}>
+					</Title>
+					<Text color="teal" className={classes.diff} size="md" weight={700}>
 						<span>{diff}%</span>
-						<ArrowUpRight size={16} style={{ marginBottom: 4 }} />
+						<ArrowUpRight size={20} style={{ marginBottom: 4 }} />
 					</Text>
 				</Group>
 				<DeviceAnalytics size={20} className={classes.icon} />
 			</Group>
 
-			<Text color="dimmed" size="sm">
-				Page views compared to previous month
+			<Text color="dimmed" size="md">
+				Рост IQ за последний год
 			</Text>
 
 			<Progress

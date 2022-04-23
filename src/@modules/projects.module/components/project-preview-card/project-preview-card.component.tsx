@@ -17,7 +17,6 @@ import { useStyles } from './project-preview-card.style'
 interface BadgeCardProps {
 	image: string;
 	title: string;
-	country: string;
 	description: string;
 	badges: {
 		emoji: string;
@@ -25,7 +24,7 @@ interface BadgeCardProps {
 	}[];
 }
 
-export function ProjectPreviewCard({ image, title, description, country, badges }: BadgeCardProps) {
+export function ProjectPreviewCard({ image, title, description, badges }: BadgeCardProps) {
 	const { classes } = useStyles()
 	const theme = useMantineTheme()
 
@@ -50,7 +49,6 @@ export function ProjectPreviewCard({ image, title, description, country, badges 
 					<Text size="lg" weight={500}>
 						{title}
 					</Text>
-					<Badge size="sm">{country}</Badge>
 				</Group>
 				<Text size="sm" mt="xs">
 					{description}
@@ -59,7 +57,7 @@ export function ProjectPreviewCard({ image, title, description, country, badges 
 
 			<Card.Section className={classes.section}>
 				<Text mt="md" className={classes.label} color="dimmed">
-					Perfect for you, if you enjoy
+					Теги
 				</Text>
 				<Group spacing={7} mt={5}>
 					{features}
@@ -68,11 +66,8 @@ export function ProjectPreviewCard({ image, title, description, country, badges 
 
 			<Group mt="xs">
 				<Button radius="md" style={{ flex: 1 }}>
-					Show details
+					Панель управления
 				</Button>
-				<ActionIcon variant="default" radius="md" size={36}>
-					<Heart size={18} className={classes.like} />
-				</ActionIcon>
 			</Group>
 		</Card>
 	)

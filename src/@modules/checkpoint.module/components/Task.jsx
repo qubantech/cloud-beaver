@@ -11,7 +11,7 @@ const Task = ({id, dragOverlay, title, description, }) => {
 	}
 
 	return (
-		<div style={style}>
+		<div style={style} onClick={ () => {return} }>
 			<Card shadow="sm" p="lg">
 				<Group position="apart" style={{ marginBottom: 5 }}>
 					<Text weight={ 500 }>{ title }</Text>

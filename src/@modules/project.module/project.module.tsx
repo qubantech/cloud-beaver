@@ -100,7 +100,9 @@ const ProjectBoard = () => {
 						<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
 							<Card date={'22.02.2023'}
 								  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-								  status={'planned'}/>
+								  status={'planned'}
+								  onClick={() => navigate('5')}
+							/>
 						</Timeline.Item>
 					</Timeline>
 				</Container>

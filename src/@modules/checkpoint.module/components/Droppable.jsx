@@ -15,7 +15,12 @@ const Droppable = ({ id, items, title, color }) => {
 
 	return (
 		<SortableContext id={ id } items={ items } strategy={ rectSortingStrategy }>
-			<Group direction='column' className={classes.list} ref={setNodeRef} style={{margin: '5px',}}>
+			<Group
+				direction='column'
+				className={classes.list}
+				ref={setNodeRef}
+				style={{margin: '5px',}}
+			>
 				<Badge color={ color }>{ title }</Badge>
 
 				{/* eslint-disable-next-line react/prop-types */}

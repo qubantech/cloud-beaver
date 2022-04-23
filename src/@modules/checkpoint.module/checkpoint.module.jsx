@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
+import {Container, Grid, Group} from '@mantine/core'
+import { Route, Routes } from 'react-router-dom'
+import { Project } from '../project.module/project.module'
+
 import {
 	DndContext,
 	DragOverlay,
@@ -8,14 +12,14 @@ import {
 	useSensors,
 } from '@dnd-kit/core'
 
-import Droppable from './Droppable'
-import Task from './Task'
-import { arrayMove, insertAtIndex, removeAtIndex } from '../utils/array'
+import Droppable from './components/Droppable'
+import Task from './components/Task'
+import { arrayMove, insertAtIndex, removeAtIndex } from './utils/array'
+import {useParams} from 'react-router-dom'
 
+export const Kanban = () => {
+	const { id } = useParams()
 
-
-
-export const KanbanBoard = () => {
 	const [itemGroups, setItemGroups] = useState({
 		'Planned': {
 			title: 'В планах',
@@ -38,6 +42,12 @@ export const KanbanBoard = () => {
 			color: 'green'
 		}
 	})
+
+	// useEffect(() => {
+	// 	const data = useTa
+	// },[])
+
+
 	const [activeId, setActiveId] = useState(null)
 
 	const sensors = useSensors(
@@ -158,19 +168,36 @@ export const KanbanBoard = () => {
 			onDragOver={handleDragOver}
 			onDragEnd={handleDragEnd}
 		>
-			<div className="container" style={{display: 'flex', margin: '5px'}}>
-				{Object.keys(itemGroups).map((group) => (
-					<Droppable
-						id={group}
-						items={itemGroups[group].items}
-						activeId={activeId}
-						key={group}
-						title={itemGroups[group].title}
-						color={itemGroups[group].color}
-					/>
-				))}
-			</div>
+			<Container>
+				<Group direction={'row'} position={'center'}>
+					{Object.keys(itemGroups).map((group) => (
+						<div key={group} style={{ alignSelf: 'start'}}>
+							<Droppable
+								id={group}
+								items={itemGroups[group].items}
+								activeId={activeId}
+								title={itemGroups[group].title}
+								color={itemGroups[group].color}
+							/>
+						</div>
+					))}
+				</Group>
+			</Container>
 			<DragOverlay>{activeId ? <Task id={activeId} title={ 'title' } description={ 'description' } dragOverlay/> : null}</DragOverlay>
 		</DndContext>
 	)
 }
+
+
+const Checkpoint = () => {
+	return <Container>
+		<Routes>
+			{/*<Route path={'/'} element={<Project/>}/>*/}
+			<Routes path={':id'} element={<Kanban/>}>
+				<Route path={':id'} element={<>dasjdkjaskdjsa</>}/>
+			</Routes>
+		</Routes>
+	</Container>
+}
+
+export default Checkpoint

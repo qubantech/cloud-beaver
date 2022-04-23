@@ -3,7 +3,7 @@ import React from 'react'
 import { Container, SimpleGrid } from '@mantine/core'
 import { StatsRing } from '../../app.shared/app.layouts/stats-ring.layout'
 import { StatsRingCard } from '../../app.shared/app.components/stats-ring-card.component'
-import { KanbanBoard } from './components/kanban.component'
+import { Kanban } from '../checkpoint.module/checkpoint.module'
 
 
 
@@ -30,7 +30,6 @@ const SubRoutingDemo = () => {
 const TemplatePage = () => {
 
 	return <>
-		<KanbanBoard/>
 		<Container>
 			<SimpleGrid
 				cols={2}
@@ -61,6 +60,7 @@ const TemplatePage = () => {
 
 export const Template = () => {
 	return <Container>
+		<Kanban/>
 		<Routes>
 			<Route path={'/'} element={<TemplatePage/>}/>
 			<Route path={':id'} element={<SubRoutingDemo/>}/>

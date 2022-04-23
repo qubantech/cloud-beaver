@@ -18,21 +18,22 @@ type Project = {
     organizations: string[] | undefined, // description strings
     deltaBudget: number,
     deltaTime: number,
-    iq: number
+    iq: number,
+    status: string
 }
 
 type Checkpoint = {
     id: string,
+    title: string,
     controllers: string[] | undefined,
     documents: string[] | undefined,
     report: string,
     conferences: string[] | undefined,
-    timeDeviation: number,
-    costDeviation: number,
     tasks: string[] | undefined
     iq: number,
     deltaBudget: number,
-    deltaTime: number
+    deltaTime: number,
+    status: string
 }
 
 type Conference = {

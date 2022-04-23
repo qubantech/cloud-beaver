@@ -13,7 +13,7 @@ import {
 } from '@dnd-kit/core'
 
 import Droppable from './components/Droppable'
-import Task from './components/Task'
+import TaskReview from './components/TaskReview'
 import { arrayMove, insertAtIndex, removeAtIndex } from './utils/array'
 import {useParams} from 'react-router-dom'
 
@@ -51,8 +51,13 @@ export const Kanban = () => {
 	const [activeId, setActiveId] = useState(null)
 
 	const sensors = useSensors(
-		useSensor(MouseSensor),
-		useSensor(TouchSensor),
+		useSensor(MouseSensor,{activationConstraint: {
+			delay: 150
+		}}),
+		useSensor(TouchSensor,{activationConstraint: {
+			delay: 150
+		}}),
+
 	)
 
 	const handleDragStart = ({ active }) => setActiveId(active.id)
@@ -183,7 +188,7 @@ export const Kanban = () => {
 					))}
 				</Group>
 			</Container>
-			<DragOverlay>{activeId ? <Task id={activeId} title={ 'title' } description={ 'description' } dragOverlay/> : null}</DragOverlay>
+			<DragOverlay>{activeId ? <TaskReview id={activeId} title={ 'title' } description={ 'description' } dragOverlay/> : null}</DragOverlay>
 		</DndContext>
 	)
 }

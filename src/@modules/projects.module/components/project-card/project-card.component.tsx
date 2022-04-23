@@ -57,9 +57,9 @@ export function ProjectCard({
 					</Text>
 					<Group noWrap spacing="xs">
 						<Group spacing="xs" noWrap>
-							<Text size="md" style={{ letterSpacing: '-0.08em' }}>{department}</Text>
+							<Text size="sm" style={{ letterSpacing: '-0.08em' }}>{department}</Text>
 						</Group>
-						<Text size="md" color="dimmed" className={isSelected ? classes.dateSelected : classes.date}>
+						<Text size="sm" color="dimmed" className={isSelected ? classes.dateSelected : classes.date}>
 							{date}
 						</Text>
 					</Group>

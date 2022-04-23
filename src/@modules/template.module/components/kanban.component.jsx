@@ -9,25 +9,31 @@ import {
 } from '@dnd-kit/core'
 
 import Droppable from './Droppable'
-import Item from './Item'
+import Task from './Task'
 import { arrayMove, insertAtIndex, removeAtIndex } from '../utils/array'
+
+
 
 
 export const KanbanBoard = () => {
 	const [itemGroups, setItemGroups] = useState({
-		'В планах': {
+		'Planned': {
+			title: 'В планах',
 			items: ['1', '2', '3'],
 			color: 'red'
 		},
-		'В процессе': {
+		'In progress': {
+			title: 'В процессе',
 			items: ['4','5'],
 			color: 'yellow'
 		},
-		'На рассмотрении': {
+		'To review': {
+			title: 'На рассмотрении',
 			items: ['7', '8', '9'],
 			color: 'blue'
 		},
-		'Завершено': {
+		'Done': {
+			title: 'Завершено',
 			items: ['10'],
 			color: 'green'
 		}
@@ -94,6 +100,7 @@ export const KanbanBoard = () => {
 					newItems = {
 						...itemGroups,
 						[overContainer]: {
+							title: itemGroups[overContainer].title,
 							items: arrayMove(
 								itemGroups[overContainer].items,
 								activeIndex,
@@ -131,10 +138,12 @@ export const KanbanBoard = () => {
 		return {
 			...items,
 			[activeContainer]:{
+				title: itemGroups[activeContainer].title,
 				items: removeAtIndex(items[activeContainer].items, activeIndex),
 				color: itemGroups[activeContainer].color
 			},
 			[overContainer]: {
+				title: itemGroups[overContainer].title,
 				items: insertAtIndex(items[overContainer].items, overIndex, item),
 				color: itemGroups[overContainer].color
 			}
@@ -156,12 +165,12 @@ export const KanbanBoard = () => {
 						items={itemGroups[group].items}
 						activeId={activeId}
 						key={group}
-						title={group}
+						title={itemGroups[group].title}
 						color={itemGroups[group].color}
 					/>
 				))}
 			</div>
-			<DragOverlay>{activeId ? <Item id={activeId} dragOverlay/> : null}</DragOverlay>
+			<DragOverlay>{activeId ? <Task id={activeId} title={ 'title' } description={ 'description' } dragOverlay/> : null}</DragOverlay>
 		</DndContext>
 	)
 }

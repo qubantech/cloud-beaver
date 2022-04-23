@@ -2,7 +2,7 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import Item from './Item'
+import Task from './Task'
 
 // eslint-disable-next-line react/prop-types
 const SortableItem = ({ id }) => {
@@ -28,7 +28,7 @@ const SortableItem = ({ id }) => {
 			{...attributes}
 			{...listeners}
 		>
-			<Item id={id} />
+			<Task id={id}  title={ 'title' }  description={ 'description' }/>
 		</div>
 	)
 }

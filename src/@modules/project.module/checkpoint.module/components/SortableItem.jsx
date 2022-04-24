@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities'
 import TaskReview from './TaskReview'
 
 // eslint-disable-next-line react/prop-types
-const SortableItem = ({ id }) => {
+const SortableItem = ({ id, status, color }) => {
 	const {
 		attributes,
 		listeners,
@@ -27,7 +27,7 @@ const SortableItem = ({ id }) => {
 			{...attributes}
 			{...listeners}
 		>
-			<TaskReview  id={id} title={ 'Название задания' } description={ 'Описание' }/>
+			<TaskReview  id={id} title={ 'Название задания' } description={ 'Описание' } status={ status } color={ color }/>
 		</div>
 	)
 }

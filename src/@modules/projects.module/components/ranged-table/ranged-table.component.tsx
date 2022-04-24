@@ -1,10 +1,12 @@
 import React from 'react'
 import { Table, Progress, Anchor, Text, Group, ScrollArea } from '@mantine/core'
 import { useStyles } from './ranged-table.style'
+import {useNavigate} from 'react-router-dom'
 
 
 interface TableReviewsProps {
 	data: {
+		id: string,
 		title: string;
 		iq: number;
 		kpi: number;
@@ -14,6 +16,7 @@ interface TableReviewsProps {
 }
 
 export function RangedTable({ data }: TableReviewsProps) {
+	const navigate = useNavigate()
 	const { classes, theme } = useStyles()
 
 	const rows = data.map((row) => {
@@ -21,7 +24,7 @@ export function RangedTable({ data }: TableReviewsProps) {
 		return (
 			<tr key={row.title}>
 				<td>
-					<Anchor<'a'> size="sm" onClick={(event) => event.preventDefault()}>
+					<Anchor<'a'> size="sm" onClick={() => navigate(`/project/${row.id}`)}>
 						{row.title}
 					</Anchor>
 				</td>

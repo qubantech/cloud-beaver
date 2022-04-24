@@ -61,6 +61,7 @@ const AnalyticsTab = () => {
 
 		const temp = projects.map((project, index) => {
 			return {
+				'id': project.id,
 				'title': project.title,
 				'iq': Math.floor(project.iq * 100) / 100,
 				'kpi': 2.3,
@@ -73,9 +74,6 @@ const AnalyticsTab = () => {
 
 	},[projects])
 
-
-
-	// console.log(data)
 	return (
 		<div>
 			<Grid columns={12} gutter={0}>
@@ -85,50 +83,6 @@ const AnalyticsTab = () => {
 						<Title style={{ color: '#FFFFFF' }} order={2}>Проекты</Title>
 						<RangedTable {...{
 							'data': data
-							// 'data': [
-							// 	{
-							// 		'title': 'Foundation',
-							// 		'iq': 10.2,
-							// 		'kpi': 1951,
-							// 		'deadline': '20.09.2022',
-							// 		'budget': '5 000 000',
-							// 	},
-							// 	{
-							// 		'title': 'Frankenstein',
-							// 		'iq': 10.2,
-							// 		'kpi': 1951,
-							// 		'deadline': '20.09.2022',
-							// 		'budget': '5 000 000',
-							// 	},
-							// 	{
-							// 		'title': 'Solaris',
-							// 		'iq': 10.2,
-							// 		'kpi': 1951,
-							// 		'deadline': '20.09.2022',
-							// 		'budget': '5 000 000',
-							// 	},
-							// 	{
-							// 		'title': 'Dune',
-							// 		'iq': 10.2,
-							// 		'kpi': 1951,
-							// 		'deadline': '20.09.2022',
-							// 		'budget': '5 000 000',
-							// 	},
-							// 	{
-							// 		'title': 'The Left Hand of Darkness',
-							// 		'iq': 10.2,
-							// 		'kpi': 1951,
-							// 		'deadline': '20.09.2022',
-							// 		'budget': '5 000 000',
-							// 	},
-							// 	{
-							// 		'title': 'A Scanner Darkly',
-							// 		'iq': 10.2,
-							// 		'kpi': 1951,
-							// 		'deadline': '20.09.2022',
-							// 		'budget': '5 000 000',
-							// 	}
-							// ]
 						}}/>
 					</SimpleGrid>
 				</Grid.Col>

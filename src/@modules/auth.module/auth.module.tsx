@@ -15,13 +15,15 @@ import {
 } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { UserAuthState } from '../../app.shared/app.state'
+import { UserAuthState, UserState } from '../../app.shared/app.state'
 import { Man, Pacman, Robot } from 'tabler-icons-react'
+import { useUserById, useUserList } from '../../app.shared/app.services/app.user.service'
 
 
 export const AuthForm = (props: PaperProps<'div'>) => {
 
-	const [user, setUser] = useRecoilState(UserAuthState)
+	const [auth, setAuth] = useRecoilState(UserAuthState)
+	const [user, setUser] = useRecoilState(UserState)
 
 	const navigate = useNavigate()
 	const [type, toggle] = useToggle('войти', ['войти', 'зарегистрироваться'])
@@ -40,26 +42,33 @@ export const AuthForm = (props: PaperProps<'div'>) => {
 		},
 	})
 
+	const managerSampleAccount = useUserById('Fu4mRHfbCzQOGwNgLoxfAugl9uD2').watchedObject
+	const implementerSampleAccount = useUserById(':r1:').watchedObject
+
 	useEffect(() => {
-		if (user) navigate('/')
+		if (auth) navigate('/')
 	}, [])
+
+
 
 	const onManagerAuth = () => {
 		console.log('manager')
 		navigate('/projects')
-		setUser('manager')
+		setAuth('manager')
+		setUser(managerSampleAccount)
 	}
 
-	const onPartnerAuth = () => {
-		console.log('partner')
-		navigate('/')
-		setUser('partner')
-	}
+	// const onPartnerAuth = () => {
+	// 	console.log('partner')
+	// 	navigate('/')
+	// 	setUser('partner')
+	// }
 
 	const onImplementerAuth = () => {
 		console.log('implementer')
 		navigate('/projects')
-		setUser('implementer')
+		setAuth('implementer')
+		setUser(implementerSampleAccount)
 	}
 
 	return (

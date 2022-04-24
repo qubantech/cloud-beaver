@@ -38,6 +38,9 @@ import { CheckpointView } from './checkpoint.module/checkpoint-view.module'
 
 import {Chart} from 'react-google-charts'
 import './project.css'
+import { useProjectById } from '../../app.shared/app.services/app.project.service'
+import {Project as ProjectModel} from './../../app.shared/app.models'
+
 
 const useStyles = createStyles((theme) => ({
 	root: {
@@ -205,7 +208,7 @@ const ButtonMenuSettings = () => {
 }
 
 
-const OverviewTab = ({projectName}: {projectName: string}) => {
+const OverviewTab = ({projectName, project}: {projectName: string, project: ProjectModel | null}) => {
 
 	const user = useRecoilValue(UserAuthState)
 	const navigate = useNavigate()
@@ -676,7 +679,7 @@ const options = {
 	}
 }
 
-const ExtendedModeTab = () => {
+const ExtendedModeTab = ({project}: {project: ProjectModel | null}) => {
 	return <>
 		<Title align={'center'} order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
 			Диаграмма Ганта по текущим задачам
@@ -729,7 +732,7 @@ const ExtendedModeTab = () => {
 	</>
 }
 
-const ReviewTab = () => {
+const ReviewTab = ({project}: {project: ProjectModel | null}) => {
 	return <></>
 }
 
@@ -737,6 +740,8 @@ const ProjectBoard = () => {
 
 	const user = useRecoilValue(UserAuthState)
 	const {id} = useParams()
+	const project = useProjectById((id && id || ''))
+		.watchedObject
 
 	const [ activeTab, setActiveTab ] = useState(0)
 
@@ -745,18 +750,18 @@ const ProjectBoard = () => {
 			<Route index element={
 				<Tabs active={activeTab} onTabChange={setActiveTab}>
 					<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
-						<OverviewTab projectName={`Проект ${id}`}/>
+						<OverviewTab projectName={project?.title || ''} project={project}/>
 					</Tabs.Tab>
 					{
 						user == 'manager' &&
 						<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
-							<ExtendedModeTab/>
+							<ExtendedModeTab project={project}/>
 						</Tabs.Tab>
 					}
 					{
 						user == 'manager' &&
 						<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
-							<ReviewTab/>
+							<ReviewTab project={project}/>
 						</Tabs.Tab>
 					}
 				</Tabs>

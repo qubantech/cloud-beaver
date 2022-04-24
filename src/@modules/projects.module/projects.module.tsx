@@ -34,29 +34,37 @@ import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { UserAuthState } from '../../app.shared/app.state'
 import { useUserList } from '../../app.shared/app.services/app.user.service'
+import { useProjectList } from '../../app.shared/app.services/app.project.service'
+import { Project, User } from '../../app.shared/app.models'
 
 
 const ProjectsContainer = ({ cardSelected, setCardSelected }: any) => {
 
+	const projects = useProjectList().watchedObject as unknown as [Project]
+
+	useEffect(() => {
+		console.log(projects)
+	}, [])
+
 	return <>
 		<SimpleGrid cols={3}>
 			{
-				[ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map((key) => (<ProjectCard
-					redirect={`/project/${key}`}
-					key={key} {...{
-						category: 'Технологии',
-						title: 'Создание цифрового двойника города',
+				projects?.map((project) => (<ProjectCard
+					redirect={`/project/${project.id}`}
+					key={project.id} {...{
+						category: project.organizations as unknown as string,
+						title: project.title,
 						date: 'До 31.12.2024',
 						department: 'Отдел информационных технологий'
 					}}
 					onClick={() => {
-						if (key === cardSelected) {
+						if (project.id === cardSelected) {
 							setCardSelected(null)
 							return
 						}
-						setCardSelected(key)
+						setCardSelected(project.id)
 					}}
-					isSelected={cardSelected === key}
+					isSelected={cardSelected === project.id}
 				/>
 				))
 			}
@@ -71,8 +79,17 @@ const OverviewTab = () => {
 
 	const navigate = useNavigate()
 	const [ cardSelected, setCardSelected ] = useState<number | null>(null)
+	const [ summaryIQ, setSummaryIQ ] = useState(0)
 
 	const user = useRecoilValue(UserAuthState)
+	const projects = useProjectList().watchedObject as unknown as [Project]
+
+	useEffect(() => {
+		if (projects) {
+			const summaryIQ = projects?.reduce((iq, project) => iq + project.iq, 0) / projects.length
+			setSummaryIQ(summaryIQ)
+		}
+	}, [projects])
 
 	const [ showCreateProject, setShowCreateProject ] = useState(false)
 	const [ showInfographics, setShowInfographics ] = useState(false)
@@ -105,24 +122,32 @@ const OverviewTab = () => {
 
 	const ProjectCreationForm = () => {
 
-		const user = useUserList()
+		const [projectName, setProjectName] = useState('')
+		const [usersList, setUsersList] = useState<{value: string, label: string}[]>([])
+
+		const users = useUserList().watchedObject
 
 		useEffect(() => {
-			console.log(user.watchedObject)
-		}, [])
+			if (users) setUsersList(
+				Object.keys(users)
+					.map(user => ({
+						value: users[user].id,
+						label: users[user].firstname + ' ' + users[user].lastname
+					}))
+			)
+		}, [users])
 
 		const onCreateProject = () => {
 			console.log('Создать проект')
 		}
 
 		return <SimpleGrid cols={1}>
-			<Input icon={<At/>} placeholder="Название проекта"/>
+			<Input icon={<At/>} value={projectName} onChange={
+				// @ts-ignore
+				(event) => setProjectName(event.target.value)
+			} placeholder="Название проекта"/>
 			<MultiSelect
-				data={[
-					{ value: 'wiwiwi', label: 'Олег Лихогуб' },
-					{ value: 'ng', label: 'Максим Беспалов' },
-					{ value: 'svelte', label: 'Никита Ванюченко' },
-				]}
+				data={usersList}
 				label="Ответственные"
 				placeholder="Выбрать ответственных"
 			/>
@@ -159,7 +184,7 @@ const OverviewTab = () => {
 						showInfographics &&
 						<StatsSegments
 							{...{
-								total: '117,75',
+								total: summaryIQ.toPrecision(4),
 								diff: 18,
 								data: [
 									{
@@ -190,7 +215,7 @@ const OverviewTab = () => {
 							<Divider my="xs" label="Краткая сводка" labelPosition="center"/>
 							<ProjectPreviewCard {...{
 								image: 'https://admnvrsk.ru/upload/resize_cache/iblock/97c/865_497_2/97cb010aa3a97f724bed2dead73860b2.jpg',
-								title: 'Создание "Цифрового двойника города"',
+								title: projects[cardSelected].title,
 								description: 'МБУ ""АПК Безопасный город - ЕДДС""\n' +
 									'Управление транспорта и дорожного хозяйства\n' +
 									'Управление культуры\n' +

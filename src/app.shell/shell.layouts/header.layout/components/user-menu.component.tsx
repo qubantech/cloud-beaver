@@ -18,14 +18,15 @@ import {
 } from 'tabler-icons-react'
 import { useStyles } from './user-menu.style'
 import { useRecoilState } from 'recoil'
-import { UserAuthState } from '../../../../app.shared/app.state'
+import { UserAuthState, UserState } from '../../../../app.shared/app.state'
 import { useNavigate } from 'react-router-dom'
 
 
 
-export const UserMenu = ({ user }: {user: { name: string; image: string }}) => {
+export const UserMenu = () => {
 
-	const [ , setUser ] = useRecoilState(UserAuthState)
+	const [ user, setUser ] = useRecoilState(UserState)
+	const [ , setAuth ] = useRecoilState(UserAuthState)
 	const navigate = useNavigate()
 
 	const { classes, theme, cx } = useStyles()
@@ -33,6 +34,7 @@ export const UserMenu = ({ user }: {user: { name: string; image: string }}) => {
 
 
 	const onLogout = () => {
+		setAuth(null)
 		setUser(null)
 		navigate('/')
 	}
@@ -47,9 +49,11 @@ export const UserMenu = ({ user }: {user: { name: string; image: string }}) => {
 		control={
 			<UnstyledButton className={cx(classes.user, { [classes.userActive]: userMenuOpened })}>
 				<Group spacing={7}>
-					<Avatar src={user.image} alt={user.name} radius="xl" size={20} />
+					<Avatar
+						src={'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'}
+						alt={user?.nickname} radius="xl" size={20} />
 					<Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-						{user.name}
+						{user?.firstname + ' ' + user?.lastname}
 					</Text>
 					<ChevronDown size={12} />
 				</Group>

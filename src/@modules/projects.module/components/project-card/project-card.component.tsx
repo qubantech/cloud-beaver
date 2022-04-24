@@ -39,15 +39,6 @@ export function ProjectCard({
 			<Group noWrap spacing={0}>
 				<div className={isSelected ? classes.bodySelected : classes.body}>
 					<Group direction={'row'} position={'apart'}>
-						<Text transform="uppercase" color="dimmed" weight={700} size="xs">
-							<Badge variant="gradient" gradient={{
-								from: isSelected ? '#eeeeee' : 'indigo',
-								to: isSelected ? 'gray' :'cyan'
-							}}
-							sx={{color: isSelected ? '#252525' : '#ffffff'}}>
-								{category}
-							</Badge>
-						</Text>
 						<ActionIcon size={'md'} onClick={() => navigate(redirect)} style={{ cursor: 'pointer' }}>
 							<Adjustments/>
 						</ActionIcon>
@@ -63,6 +54,19 @@ export function ProjectCard({
 							{date}
 						</Text>
 					</Group>
+					<Text mt={'md'} transform="uppercase" color="dimmed" weight={700} size="xs">
+						<Badge variant="gradient" gradient={{
+							from: isSelected ? '#eeeeee' : 'indigo',
+							to: isSelected ? 'gray' :'cyan'
+						}}
+							   sx={{
+								   color: isSelected ? '#252525' : '#ffffff',
+								   textOverflow: 'ellipsis',
+								   maxWidth: '180px'
+							   }}>
+							{category}
+						</Badge>
+					</Text>
 				</div>
 			</Group>
 		</Card>

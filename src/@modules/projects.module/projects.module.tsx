@@ -36,6 +36,7 @@ import { UserAuthState } from '../../app.shared/app.state'
 import { useUserList } from '../../app.shared/app.services/app.user.service'
 import { useProjectList } from '../../app.shared/app.services/app.project.service'
 import { Project, User } from '../../app.shared/app.models'
+import AnalyticsTab from './components/analytics-tab/analytics-tab'
 
 
 const ProjectsContainer = ({ cardSelected, setCardSelected }: any) => {
@@ -332,108 +333,11 @@ const InfoTab = () => {
 	</>
 }
 
-const AnalyticsTab = () => {
+const AnalyticsTabWrapper = () => {
 
-	return <>
-		<Grid columns={12} gutter={0}>
-			<Grid.Col span={8}>
-				<SimpleGrid cols={1}>
-					<Recommendation/>
-					<Title style={{ color: '#FFFFFF' }} order={2}>Проекты</Title>
-					<RangedTable {...{
-						'data': [
-							{
-								'title': 'Foundation',
-								'author': 'Isaac Asimov',
-								'year': 1951,
-								'reviews': {
-									'positive': 2223,
-									'negative': 259
-								}
-							},
-							{
-								'title': 'Frankenstein',
-								'author': 'Mary Shelley',
-								'year': 1818,
-								'reviews': {
-									'positive': 5677,
-									'negative': 1265
-								}
-							},
-							{
-								'title': 'Solaris',
-								'author': 'Stanislaw Lem',
-								'year': 1961,
-								'reviews': {
-									'positive': 3487,
-									'negative': 1845
-								}
-							},
-							{
-								'title': 'Dune',
-								'author': 'Frank Herbert',
-								'year': 1965,
-								'reviews': {
-									'positive': 8576,
-									'negative': 663
-								}
-							},
-							{
-								'title': 'The Left Hand of Darkness',
-								'author': 'Ursula K. Le Guin',
-								'year': 1969,
-								'reviews': {
-									'positive': 6631,
-									'negative': 993
-								}
-							},
-							{
-								'title': 'A Scanner Darkly',
-								'author': 'Philip K Dick',
-								'year': 1977,
-								'reviews': {
-									'positive': 8124,
-									'negative': 1847
-								}
-							}
-						]
-					}}/>
-				</SimpleGrid>
-			</Grid.Col>
-			<Grid.Col span={4}>
-				<SimpleGrid cols={1}>
-					<MainMetricWidget {...{
-						'data': [
-							{
-								'title': 'Revenue',
-								'icon': 'receipt',
-								'value': '13,456',
-								'diff': 34
-							},
-							{
-								'title': 'Profit',
-								'icon': 'coin',
-								'value': '4,145',
-								'diff': -13
-							},
-							{
-								'title': 'Coupons usage',
-								'icon': 'discount',
-								'value': '745',
-								'diff': 18
-							},
-							{
-								'title': 'New customers',
-								'icon': 'user',
-								'value': '188',
-								'diff': -30
-							}
-						]
-					}}/>
-				</SimpleGrid>
-			</Grid.Col>
-		</Grid>
-	</>
+	return (
+		<AnalyticsTab/>
+	)
 }
 
 const ProjectsDashboard = () => {
@@ -455,7 +359,7 @@ const ProjectsDashboard = () => {
 			{
 				user == 'manager' &&
 				<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
-					<AnalyticsTab/>
+					<AnalyticsTabWrapper/>
 				</Tabs.Tab>
 			}
 		</Tabs>

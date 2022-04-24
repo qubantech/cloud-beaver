@@ -18,10 +18,18 @@ const useStyles = createStyles((theme) => ({
 		backgroundPosition: 'center',
 	},
 
+	maintitle: {
+		fontFamily: `${theme.fontFamily}`,
+		fontWeight: 600,
+		color: theme.white,
+		lineHeight: 1.2,
+		fontSize: 32,
+		marginTop: theme.spacing.xs,
+	},
 
 	title: {
 		fontFamily: `${theme.fontFamily}`,
-		fontWeight: 900,
+		fontWeight: 700,
 		color: theme.white,
 		lineHeight: 1.2,
 		fontSize: 30,
@@ -47,16 +55,16 @@ const Welcome = () => {
 		<HeroTitle/>
 		<Aboutmodal isOpen={isOpen} setOpen={setOpen} title={title} imageurl={img} description={desc}/>
 		<Container>
-			<Title className={classes.title} order={4} align={'center'} pb={40}>
-				Система открыта к предложениям информационных партнеров в следующих сферах
+			<Title className={classes.maintitle} order={4} pb={40}>
+				Система открыта к предложениям информационных партнеров
 			</Title>
 			<Grid>
 				<Grid.Col onClick={() => {
 					setImg('https://sredatomsk.ru/wp-content/uploads/2020/05/umnyj-transport.jpg')
-					setDesc('Развитие общественного городского транспорта - одна из самых важных наших задач и мы были бы рады найти партнера, который поможет автоматизировать часть процессов.')
+					setDesc('Развитие общественного городского транспорта - одна из самых важных наших задач и мы были бы рады найти партнера, который поможет автоматизировать часть процессов.\n\nНа данный момент сделано многое и необходимо хардверное решение для информационной системы на остановке: расписание маршрутов, пробки, туристический гид.')
 					setOpen(true)
 					setTitle('Умный городской транспорт')
-				}} span={6} pb={100}>
+				}} span={6}>
 					<Paper
 						shadow="md"
 						p="xl"
@@ -83,7 +91,7 @@ const Welcome = () => {
 					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
 					setOpen(true)
 					setTitle('Образование')
-				}} span={3} pb={100}>
+				}} span={3}>
 					<Paper
 						shadow="md"
 						p="xl"
@@ -106,11 +114,11 @@ const Welcome = () => {
 					</Paper>
 				</Grid.Col>
 				<Grid.Col onClick={() => {
-					setImg('https://avatars.mds.yandex.net/get-zen_doc/1872259/pub_5fa3a066feef0b1a81cae560_5fa3a63a5dc59845ddd87443/scale_1200')
+					setImg('https://avatars.mds.yandex.net/i?id=3a77dd8021d097c3eaf295ef040ef95c-5876532-images-thumbs&n=13&exp=1')
 					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
 					setOpen(true)
-					setTitle('Образование')
-				}} span={3} pb={100}>
+					setTitle('Культура')
+				}} span={3}>
 					<Paper
 						shadow="md"
 						p="xl"
@@ -125,6 +133,136 @@ const Welcome = () => {
 							</Text>
 							<Title order={3} className={classes.title}>
 								Культура
+							</Title>
+						</div>
+						<Button variant="white" color="dark">
+							Оставить предложение
+						</Button>
+					</Paper>
+				</Grid.Col>
+				<Grid.Col onClick={() => {
+					setImg('https://www.orangepix.it/repo/copertine_blog/anteprime/Trend-Visual-2018_acb34ae1c2_128.jpg')
+					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
+					setOpen(true)
+				}} span={3}>
+					<Paper
+						shadow="md"
+						p="xl"
+						radius="md"
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://www.orangepix.it/repo/copertine_blog/anteprime/Trend-Visual-2018_acb34ae1c2_128.jpg)' }}
+						className={classes.card}
+					>
+						<div>
+							<Text
+								className={classes.category} size='xs'>
+								Информирование туристов
+							</Text>
+							<Title order={3} className={classes.title}>
+								Туризм и сервис
+							</Title>
+						</div>
+						<Button variant="white" color="dark">
+							Оставить предложение
+						</Button>
+					</Paper>
+				</Grid.Col>
+				<Grid.Col onClick={() => {
+					setImg('https://artwuz.ru/wp-content/uploads/2020/06/obespechenie-ekologicheskoj-bezopasnosti.jpg')
+					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
+					setOpen(true)
+				}} span={3}>
+					<Paper
+						shadow="md"
+						p="xl"
+						radius="md"
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://artwuz.ru/wp-content/uploads/2020/06/obespechenie-ekologicheskoj-bezopasnosti.jpg)' }}
+						className={classes.card}
+					>
+						<div>
+							<Text
+								className={classes.category} size='xs'>
+								Управление отходами
+							</Text>
+							<Title order={3} className={classes.title}>
+								Интеллектуальные системы общественной и экологической безопасности
+							</Title>
+						</div>
+						<Button variant="white" color="dark">
+							Оставить предложение
+						</Button>
+					</Paper>
+				</Grid.Col>
+				<Grid.Col onClick={() => {
+					setImg('https://ysia.ru/wp-content/uploads/2019/06/img_3068.jpg')
+					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
+					setOpen(true)
+				}} span={3}>
+					<Paper
+						shadow="md"
+						p="xl"
+						radius="md"
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://ysia.ru/wp-content/uploads/2019/06/img_3068.jpg)' }}
+						className={classes.card}
+					>
+						<div>
+							<Text
+								className={classes.category} size='xs'>
+								Создание мультиплатформенного приложения
+							</Text>
+							<Title order={3} className={classes.title}>
+								Городское управление
+							</Title>
+						</div>
+						<Button variant="white" color="dark">
+							Оставить предложение
+						</Button>
+					</Paper>
+				</Grid.Col>
+				<Grid.Col onClick={() => {
+					setImg('https://spbit.ru/files/iotzkh2_1543220596.jpg')
+					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
+					setOpen(true)
+				}} span={3}>
+					<Paper
+						shadow="md"
+						p="xl"
+						radius="md"
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://spbit.ru/files/iotzkh2_1543220596.jpg)' }}
+						className={classes.card}
+					>
+						<div>
+							<Text
+								className={classes.category} size='xs'>
+								Планирование и статистика
+							</Text>
+							<Title order={3} className={classes.title}>
+								Умное ЖКХ
+							</Title>
+						</div>
+						<Button variant="white" color="dark">
+							Оставить предложение
+						</Button>
+					</Paper>
+				</Grid.Col>
+				<Grid.Col onClick={() => {
+					setImg('https://phonoteka.org/uploads/posts/2021-06/1622790180_30-phonoteka_org-p-vsemirnaya-set-art-krasivo-31.jpg')
+					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
+					setOpen(true)
+				}} span={3} pb={100}>
+					<Paper
+						shadow="md"
+						p="xl"
+						radius="md"
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://phonoteka.org/uploads/posts/2021-06/1622790180_30-phonoteka_org-p-vsemirnaya-set-art-krasivo-31.jpg)' }}
+						className={classes.card}
+					>
+						<div>
+							<Text
+								className={classes.category} size='xs'>
+								Расширенный доступ к ШПД
+							</Text>
+							<Title order={3} className={classes.title}>
+								Развитие сетей связи
 							</Title>
 						</div>
 						<Button variant="white" color="dark">

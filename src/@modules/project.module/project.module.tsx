@@ -588,8 +588,6 @@ const rows = [
 		'task7'
 	]
 
-
-
 ]
 
 const data = [columns, ...rows]
@@ -690,6 +688,7 @@ const ExtendedModeTab = () => {
 			// @ts-ignore
 			   options={options}
 			   className={'gantt'}
+			   style={{ color: '#3a3a3a' }}
 		/>
 		<Grid>
 			<Grid.Col span={6} pb={40}>
@@ -724,7 +723,7 @@ const ExtendedModeTab = () => {
 				</Timeline>
 			</Grid.Col>
 			<Grid.Col span={6}>
-				<TableView/>
+				<LateTasksTableView/>
 			</Grid.Col>
 		</Grid>
 	</>
@@ -738,6 +737,7 @@ const ProjectBoard = () => {
 
 	const user = useRecoilValue(UserAuthState)
 	const {id} = useParams()
+
 	const [ activeTab, setActiveTab ] = useState(0)
 
 	return <Container mt={'lg'}>
@@ -748,14 +748,16 @@ const ProjectBoard = () => {
 						<OverviewTab projectName={`Проект ${id}`}/>
 					</Tabs.Tab>
 					{
-						user == 'manager' && <>
-							<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
-								<ExtendedModeTab/>
-							</Tabs.Tab>
-							<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
-								<ReviewTab/>
-							</Tabs.Tab>
-						</>
+						user == 'manager' &&
+						<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
+							<ExtendedModeTab/>
+						</Tabs.Tab>
+					}
+					{
+						user == 'manager' &&
+						<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
+							<ReviewTab/>
+						</Tabs.Tab>
 					}
 				</Tabs>
 			}/>

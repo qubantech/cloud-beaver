@@ -9,7 +9,13 @@ import {
 	Divider,
 	Grid,
 	Group,
-	Title, Accordion, Paper, Button, Modal, Input, Autocomplete, MultiSelect
+	Title,
+	Accordion,
+	Paper,
+	Button,
+	Modal,
+	Input,
+	MultiSelect
 } from '@mantine/core'
 import { DateRangePicker } from '@mantine/dates'
 import { At, MessageCircle, Photo, Settings } from 'tabler-icons-react'
@@ -25,7 +31,6 @@ import {
 	MainMetricWidget
 } from './components'
 import { useNavigate } from 'react-router-dom'
-import { Chat } from './layouts/chat.layout/chat.component'
 import { useRecoilValue } from 'recoil'
 import { UserAuthState } from '../../app.shared/app.state'
 import { useUserList } from '../../app.shared/app.services/app.user.service'
@@ -69,26 +74,26 @@ const OverviewTab = () => {
 
 	const user = useRecoilValue(UserAuthState)
 
-	const [showCreateProject, setShowCreateProject] = useState(false)
-	const [showInfographics, setShowInfographics] = useState(false)
+	const [ showCreateProject, setShowCreateProject ] = useState(false)
+	const [ showInfographics, setShowInfographics ] = useState(false)
 
-	const [showModal, setShowModal] = useState(false)
+	const [ showModal, setShowModal ] = useState(false)
 
 	useEffect(() => {
-		if(!user){
+		if (!user) {
 			navigate('/')
 		}
-		if(user == 'manager'){
+		if (user == 'manager') {
 			setShowCreateProject(true)
 			setShowInfographics(true)
 			return
 		}
-		if(user == 'implementer'){
+		if (user == 'implementer') {
 			setShowCreateProject(false)
 			setShowInfographics(false)
 			return
 		}
-	}, [user])
+	}, [ user ])
 
 	const onCreateProject = () => {
 		setShowModal(true)
@@ -111,7 +116,7 @@ const OverviewTab = () => {
 		}
 
 		return <SimpleGrid cols={1}>
-			<Input icon={<At />} placeholder="Название проекта"/>
+			<Input icon={<At/>} placeholder="Название проекта"/>
 			<MultiSelect
 				data={[
 					{ value: 'wiwiwi', label: 'Олег Лихогуб' },
@@ -187,12 +192,12 @@ const OverviewTab = () => {
 								image: 'https://admnvrsk.ru/upload/resize_cache/iblock/97c/865_497_2/97cb010aa3a97f724bed2dead73860b2.jpg',
 								title: 'Создание "Цифрового двойника города"',
 								description: 'МБУ ""АПК Безопасный город - ЕДДС""\n' +
-								'Управление транспорта и дорожного хозяйства\n' +
-								'Управление культуры\n' +
-								'Управление образования\n' +
-								'Управление по физической культуре и спорту\n' +
-								'Отдел экологической безопасности\n' +
-								'Отдел по курортам и туризму\n',
+									'Управление транспорта и дорожного хозяйства\n' +
+									'Управление культуры\n' +
+									'Управление образования\n' +
+									'Управление по физической культуре и спорту\n' +
+									'Отдел экологической безопасности\n' +
+									'Отдел по курортам и туризму\n',
 								badges: [
 									{
 										'emoji': '🖨️️',
@@ -417,14 +422,16 @@ const ProjectsDashboard = () => {
 				<OverviewTab/>
 			</Tabs.Tab>
 			{
-				user == 'manager' && <>
-					<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
-						<InfoTab/>
-					</Tabs.Tab>
-					<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
-						<AnalyticsTab/>
-					</Tabs.Tab>
-				</>
+				user == 'manager' &&
+				<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
+					<InfoTab/>
+				</Tabs.Tab>
+			}
+			{
+				user == 'manager' &&
+				<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
+					<AnalyticsTab/>
+				</Tabs.Tab>
 			}
 		</Tabs>
 	</Container>

@@ -63,7 +63,7 @@ const Welcome = () => {
 		}
 		<Aboutmodal isOpen={isOpen} setOpen={setOpen} title={title} imageurl={img} description={desc}/>
 		<Container>
-			<Title className={classes.maintitle} order={4} py={40}>
+			<Title className={classes.maintitle} order={4} pb={40} pt={80}>
 				Система открыта к предложениям информационных партнеров
 			</Title>
 			<Grid>
@@ -271,6 +271,32 @@ const Welcome = () => {
 							</Text>
 							<Title order={3} className={classes.title}>
 								Развитие сетей связи
+							</Title>
+						</div>
+						<Button variant="white" color="dark">
+							Оставить предложение
+						</Button>
+					</Paper>
+				</Grid.Col>
+				<Grid.Col onClick={() => {
+					setImg('https://i.pinimg.com/736x/e6/5d/02/e65d0254eb912376abf8f30604eb6574.jpg')
+					setDesc('Образование - самая важная вещь, от которой зависит наше будущее. У нас уже запущен процесс цифровизации, но необходимы дополнительные инструменты в некоторых задачах.')
+					setOpen(true)
+				}} span={3} pb={100}>
+					<Paper
+						shadow="md"
+						p="xl"
+						radius="md"
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://i.pinimg.com/736x/e6/5d/02/e65d0254eb912376abf8f30604eb6574.jpg)' }}
+						className={classes.card}
+					>
+						<div>
+							<Text
+								className={classes.category} size='xs'>
+								Энергоэффективное освещение
+							</Text>
+							<Title order={3} className={classes.title}>
+								Инновации в городской среде
 							</Title>
 						</div>
 						<Button variant="white" color="dark">

@@ -18,6 +18,7 @@ const useStyles = createStyles((theme) => ({
 		backgroundPosition: 'center',
 	},
 
+
 	title: {
 		fontFamily: `${theme.fontFamily}`,
 		fontWeight: 900,
@@ -60,7 +61,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'url(https://sredatomsk.ru/wp-content/uploads/2020/05/umnyj-transport.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://sredatomsk.ru/wp-content/uploads/2020/05/umnyj-transport.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -87,7 +88,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'url(https://avatars.mds.yandex.net/get-zen_doc/1872259/pub_5fa3a066feef0b1a81cae560_5fa3a63a5dc59845ddd87443/scale_1200)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://avatars.mds.yandex.net/get-zen_doc/1872259/pub_5fa3a066feef0b1a81cae560_5fa3a63a5dc59845ddd87443/scale_1200)' }}
 						className={classes.card}
 					>
 						<div>
@@ -114,7 +115,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'url(https://avatars.mds.yandex.net/i?id=3a77dd8021d097c3eaf295ef040ef95c-5876532-images-thumbs&n=13&exp=1)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://avatars.mds.yandex.net/i?id=3a77dd8021d097c3eaf295ef040ef95c-5876532-images-thumbs&n=13&exp=1)' }}
 						className={classes.card}
 					>
 						<div>

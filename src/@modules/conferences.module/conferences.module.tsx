@@ -1,17 +1,43 @@
-import React from 'react'
-import { Badge, Button, Card, Container, Group, Spoiler, Text, ThemeIcon} from '@mantine/core'
+import React, { useState } from 'react'
+import { Badge, Button, Card, Center, Container, Group, Modal, SimpleGrid, Spoiler, Text, ThemeIcon } from '@mantine/core'
 import { MoodSmile} from 'tabler-icons-react'
 
 const Conferences = () => {
-	const participants = ['Петров А.А.', 'Иванов В.Р.', 'Сидоров К.И.', 'Петров А.А.', 'Иванов В.Р.', 'Сидоров К.И.']
+
+	const [modalOpened, setModalOpened] = useState(false)
+
+	const participants = [
+		'Петров А.А.',
+		'Иванов В.Р.',
+		'Сидоров К.И.',
+		'Петров А.А.',
+		'Иванов В.Р.',
+		'Сидоров К.И.'
+	]
+
+	const onOpenChat = () => {
+		return
+	}
+
+	const onConnectCall = () => {
+		return
+	}
+
+	const onCreateConference = () => {
+		setModalOpened(true)
+	}
 
 	const CurrentConference = (props: {begin: string, end?: string, status: string}) => (
 		<div style={{ width: 340, margin: 'auto', alignSelf: 'start' }}>
 			<Card shadow='sm' p='lg'>
 				<Group position='apart'>
 					<Group direction={'column'} spacing={0}>
-						<Text size={'sm'}>Тема:</Text>
-						<Text weight={700}>Парк на набережной</Text>
+						<Text size={'sm'}>
+							Тема:
+						</Text>
+						<Text weight={700}>
+							Парк на набережной
+						</Text>
 					</Group>
 					{
 						props.status === 'current' ?
@@ -53,34 +79,49 @@ const Conferences = () => {
 						}
 					</Group>
 				</Spoiler>
-				<Button fullWidth variant={'outline'} size={'md'} style={{marginTop: '50px'}}>Открыть чат</Button>
-				<Button fullWidth size={'md'} style={{marginTop: '10px'}}>Присоединиться</Button>
+				<Button fullWidth variant={'outline'} size={'md'} style={{marginTop: '50px'}} onClick={onOpenChat}>
+					Открыть чат
+				</Button>
+				<Button fullWidth size={'md'} style={{marginTop: '10px'}} onClick={onConnectCall}>
+					Присоединиться
+				</Button>
 			</Card>
 		</div>
 	)
 
-	return (
-		<Container style={{marginLeft: '30px', marginRight: '30px', marginBottom: '100px'}}>
-			<Button size={'lg'} style={{marginTop: '50px'}}>Создать конференцию</Button>
-			<Group direction={'column'} style={{marginTop: '50px'}}>
-				<Text size={'xl'} color={'#DEE2E6'}>Текущие конференции</Text>
-				<Group direction={'row'}>
-					<CurrentConference begin={'08:30'} status={'current'}/>
-					<CurrentConference begin={'09:10'} status={'current'}/>
-					<CurrentConference begin={'10:00'} status={'current'}/>
-				</Group>
-			</Group>
+	return<>
+		<Modal
+			opened={modalOpened}
+			onClose={() => setModalOpened(false)}
+			title="Новая конференция"
+		>
 
-			<Group direction={'column'} style={{marginTop: '50px'}}>
-				<Text size={'xl'} color={'#DEE2E6'}>Прошедшие конференции</Text>
-				<Group>
-					<CurrentConference begin={'08:30'} end={'8:40'} status={'finished'}/>
-					<CurrentConference begin={'09:10'} end={'10:00'} status={'finished'}/>
-					<CurrentConference begin={'10:00'} end={'10:30'} status={'finished'}/>
+		</Modal>
+		<Center>
+			<Container style={{marginLeft: '30px', marginRight: '30px', marginBottom: '100px', maxWidth: '1180px'}}>
+				<Button size={'lg'} style={{marginTop: '50px'}} onClick={onCreateConference}>
+					Создать конференцию
+				</Button>
+				<Group direction={'column'} style={{marginTop: '50px'}}>
+					<Text size={'xl'} color={'#DEE2E6'}>Запланированные конференции</Text>
+					<SimpleGrid cols={3}>
+						<CurrentConference begin={'08:30'} status={'current'}/>
+						<CurrentConference begin={'09:10'} status={'current'}/>
+						<CurrentConference begin={'10:00'} status={'current'}/>
+					</SimpleGrid>
 				</Group>
-			</Group>
-		</Container>
-	)
+				<Group direction={'column'} style={{marginTop: '50px'}}>
+					<Text size={'xl'} color={'#DEE2E6'}>Прошедшие конференции</Text>
+					<SimpleGrid cols={3}>
+						<CurrentConference begin={'08:30'} end={'8:40'} status={'finished'}/>
+						<CurrentConference begin={'09:10'} end={'10:00'} status={'finished'}/>
+						<CurrentConference begin={'10:00'} end={'10:30'} status={'finished'}/>
+					</SimpleGrid>
+				</Group>
+			</Container>
+		</Center>
+	</>
+
 }
 
 export default Conferences

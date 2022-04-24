@@ -680,6 +680,7 @@ const options = {
 }
 
 const ExtendedModeTab = ({project}: {project: ProjectModel | null}) => {
+
 	return <>
 		<Title align={'center'} order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
 			Диаграмма Ганта по текущим задачам
@@ -733,6 +734,7 @@ const ExtendedModeTab = ({project}: {project: ProjectModel | null}) => {
 }
 
 const ReviewTab = ({project}: {project: ProjectModel | null}) => {
+
 	return <></>
 }
 

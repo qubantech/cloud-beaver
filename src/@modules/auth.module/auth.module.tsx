@@ -71,7 +71,7 @@ export const AuthForm = (props: PaperProps<'div'>) => {
 
 				<Group grow mb="md" mt="md" direction={'column'}>
 					<Button radius="xl" size='md' onClick={onManagerAuth} color={'gray'} leftIcon={<Man/>}>Менеджер</Button>
-					<Button radius="xl" size='md' onClick={onPartnerAuth} color={'gray'} leftIcon={<Pacman/>}>Партнёр</Button>
+					{/*<Button radius="xl" size='md' onClick={onPartnerAuth} color={'gray'} leftIcon={<Pacman/>}>Партнёр</Button>*/}
 					<Button radius="xl" size='md' onClick={onImplementerAuth} color={'gray'} leftIcon={<Robot/>}>Исполнитель</Button>
 				</Group>
 

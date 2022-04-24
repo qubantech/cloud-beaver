@@ -50,10 +50,20 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 		},
 	] : [
 		{
-			label: 'Demos',
-			link: '',
+			label: 'Главная',
+			link: '/about',
+			links: []
+		},
+		{
+			label: 'Проекты',
+			link: '/about',
+			links: []
+		},
+		{
+			label: 'О системе',
+			link: '/faq',
 			links: [
-				{ link: '/template', label: 'Template', icon: BellRinging },
+				// { link: '/template', label: 'Template', icon: BellRinging },
 			]
 		},
 	]

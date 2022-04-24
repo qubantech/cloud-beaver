@@ -56,23 +56,23 @@ export const UserMenu = ({ user }: {user: { name: string; image: string }}) => {
 			</UnstyledButton>
 		}
 	>
-		<Menu.Item icon={<Notification size={14} color={theme.colors.red[6]} onClick={() => navigate('/notifications')}/>}>
+		<Menu.Item icon={<Notification size={14} color={theme.colors.red[6]}/>} onClick={() => navigate('/notifications')}>
 			Уведомления
 		</Menu.Item>
 		<Menu.Item icon={<Star size={14} color={theme.colors.yellow[6]} />} onClick={() => navigate('/projects')}>
 			Проекты
 		</Menu.Item>
-		<Menu.Item icon={<Message size={14} color={theme.colors.blue[6]} onClick={() => navigate('/review')}/>}>
-			Ожидают проверки
-		</Menu.Item>
-		<Menu.Item icon={<Message size={14} color={theme.colors.blue[6]} onClick={() => navigate('/conferences')}/>}>
+		<Menu.Item icon={<Message size={14} color={theme.colors.blue[6]}/>} onClick={() => navigate('/conferences')}>
 			Конференции
 		</Menu.Item>
 		<Divider />
 		<Menu.Label>Настройки</Menu.Label>
-		<Menu.Item icon={<Settings size={14} />}>Настройки аккаунта</Menu.Item>
-		<Menu.Item icon={<Logout size={14} />} onClick={onLogout}>Выйти</Menu.Item>
-
+		<Menu.Item icon={<Settings size={14} />} onClick={() => navigate('/settings')}>
+			Настройки аккаунта
+		</Menu.Item>
+		<Menu.Item icon={<Logout size={14} />} onClick={onLogout}>
+			Выйти
+		</Menu.Item>
 	</Menu>
 
 }

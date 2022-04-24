@@ -58,13 +58,13 @@ export const Notifications = () => {
 	}
 
 	const onSettingsClick = () => {
-		navigate('/settings/notifications')
 		setOpened(false)
+		navigate('/settings/notifications')
 	}
 
 	const onShowMoreClick = () => {
-		navigate('/notifications')
 		setOpened(false)
+		navigate('/notifications')
 	}
 
 	return <Popover

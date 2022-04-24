@@ -34,6 +34,7 @@ import Checkpoint from './checkpoint.module/checkpoint.module'
 import { DatePicker } from '@mantine/dates'
 import { useRecoilValue } from 'recoil'
 import { UserAuthState } from '../../app.shared/app.state'
+import { CheckpointView } from './checkpoint.module/checkpoint-view.module'
 
 
 const useStyles = createStyles((theme) => ({
@@ -360,7 +361,7 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 
 	const ImplementerTasks = () => {
 		return <>
-			<LateTasksTableView/>
+			<CheckpointView/>
 		</>
 	}
 
@@ -442,15 +443,18 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 				{projectName}
 			</Title>
 			<ProjectTimings/>
+			{
+				user == 'implementer' &&
+				<SimpleGrid cols={1} mb={'md'}>
+					<ImplementerStats/>
+					<ImplementerTasks/>
+				</SimpleGrid>
+			}
 			<SimpleGrid cols={2}>
 				<SimpleGrid cols={1}>
 					{
 						user == 'manager' &&
 						<ManagerReport/>
-					}
-					{
-						user == 'implementer' &&
-						<ImplementerStats/>
 					}
 				</SimpleGrid>
 				{
@@ -459,10 +463,6 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 						<ManagerReportCard/>
 						<ManagerPredictedStats/>
 					</SimpleGrid>
-				}
-				{
-					user == 'implementer' &&
-					<ImplementerTasks/>
 				}
 			</SimpleGrid>
 		</Grid.Col>

@@ -1,8 +1,8 @@
 import React from 'react'
-import {Accordion, Badge, Button, Card, Container, Group, Spoiler, Text, ThemeIcon} from '@mantine/core'
-import {Clock, MoodSmile} from 'tabler-icons-react'
+import { Badge, Button, Card, Container, Group, Spoiler, Text, ThemeIcon} from '@mantine/core'
+import { MoodSmile} from 'tabler-icons-react'
 
-const Conference = () => {
+const Conferences = () => {
 	const participants = ['Петров А.А.', 'Иванов В.Р.', 'Сидоров К.И.', 'Петров А.А.', 'Иванов В.Р.', 'Сидоров К.И.']
 
 	const CurrentConference = (props: {begin: string, end?: string, status: string}) => (
@@ -83,4 +83,4 @@ const Conference = () => {
 	)
 }
 
-export default Conference
+export default Conferences

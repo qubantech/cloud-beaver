@@ -4,7 +4,7 @@ import { useStyles } from '../ring-stats/ring-stats.style'
 import { TrendingDown } from 'tabler-icons-react'
 
 
-export const TableView = () => {
+export const LateTasksTableView = () => {
 
 	const { classes, } = useStyles()
 
@@ -22,7 +22,7 @@ export const TableView = () => {
 			predict: <Group><TrendingDown color={'red'}/>-14.07</Group>,
 		},
 	]
-	
+
 	const rows = elements.map((element) => (
 		<tr key={element.task}>
 			<td>{element.task}</td>

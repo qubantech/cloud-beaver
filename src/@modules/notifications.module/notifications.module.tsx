@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TableOfContents } from './components/table-of-contents/table-of-contents.component'
-import { Badge, Button, Card, Center, Container, Divider, Grid, Group, SimpleGrid, Text } from '@mantine/core'
+import { Badge, Button, Card, Center, Container, Divider, Grid, SimpleGrid, Text } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 
 

@@ -1,11 +1,13 @@
 import { HeroTitle } from './layouts/hero-title.layout'
-import { SubGrid } from './layouts/sub-grid.layout'
 import React, {useState} from 'react'
 import { Route, Routes, useParams } from 'react-router-dom'
-import {Button, Container, createStyles, Grid, Paper, Title, Text, useMantineTheme} from '@mantine/core'
+import { Button, Container, createStyles, Grid, Paper, Title, Text } from '@mantine/core'
 import { ContactForm } from './components/contact-form.component'
 import { PreviewCard } from './components/project-preview-card/preview-card.component'
 import Aboutmodal from './aboutmodal'
+import { useRecoilValue } from 'recoil'
+import { UserAuthState } from '../../app.shared/app.state'
+
 
 const useStyles = createStyles((theme) => ({
 	card: {
@@ -23,7 +25,7 @@ const useStyles = createStyles((theme) => ({
 		fontWeight: 600,
 		color: theme.white,
 		lineHeight: 1.2,
-		fontSize: 32,
+		fontSize: 24,
 		marginTop: theme.spacing.xs,
 	},
 
@@ -46,13 +48,19 @@ const useStyles = createStyles((theme) => ({
 
 
 const Welcome = () => {
+
+	const auth = useRecoilValue(UserAuthState)
+
 	const { classes } = useStyles()
 	const [isOpen, setOpen] = useState<boolean>(false)
 	const [img, setImg] = useState<string>('')
 	const [desc, setDesc] = useState<string>('')
 	const [title, setTitle] = useState<string>('')
+
 	return <>
-		<HeroTitle/>
+		{
+			!auth && <HeroTitle/>
+		}
 		<Aboutmodal isOpen={isOpen} setOpen={setOpen} title={title} imageurl={img} description={desc}/>
 		<Container>
 			<Title className={classes.maintitle} order={4} pb={40} pt={80}>
@@ -69,7 +77,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://sredatomsk.ru/wp-content/uploads/2020/05/umnyj-transport.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://sredatomsk.ru/wp-content/uploads/2020/05/umnyj-transport.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -96,7 +104,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://avatars.mds.yandex.net/get-zen_doc/1872259/pub_5fa3a066feef0b1a81cae560_5fa3a63a5dc59845ddd87443/scale_1200)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://avatars.mds.yandex.net/get-zen_doc/1872259/pub_5fa3a066feef0b1a81cae560_5fa3a63a5dc59845ddd87443/scale_1200)' }}
 						className={classes.card}
 					>
 						<div>
@@ -123,7 +131,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://avatars.mds.yandex.net/i?id=3a77dd8021d097c3eaf295ef040ef95c-5876532-images-thumbs&n=13&exp=1)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://avatars.mds.yandex.net/i?id=3a77dd8021d097c3eaf295ef040ef95c-5876532-images-thumbs&n=13&exp=1)' }}
 						className={classes.card}
 					>
 						<div>
@@ -149,7 +157,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://www.orangepix.it/repo/copertine_blog/anteprime/Trend-Visual-2018_acb34ae1c2_128.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://www.orangepix.it/repo/copertine_blog/anteprime/Trend-Visual-2018_acb34ae1c2_128.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -175,7 +183,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://artwuz.ru/wp-content/uploads/2020/06/obespechenie-ekologicheskoj-bezopasnosti.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://artwuz.ru/wp-content/uploads/2020/06/obespechenie-ekologicheskoj-bezopasnosti.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -201,7 +209,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://ysia.ru/wp-content/uploads/2019/06/img_3068.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://ysia.ru/wp-content/uploads/2019/06/img_3068.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -227,7 +235,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://spbit.ru/files/iotzkh2_1543220596.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://spbit.ru/files/iotzkh2_1543220596.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -253,7 +261,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://phonoteka.org/uploads/posts/2021-06/1622790180_30-phonoteka_org-p-vsemirnaya-set-art-krasivo-31.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://phonoteka.org/uploads/posts/2021-06/1622790180_30-phonoteka_org-p-vsemirnaya-set-art-krasivo-31.jpg)' }}
 						className={classes.card}
 					>
 						<div>
@@ -298,7 +306,6 @@ const Welcome = () => {
 				</Grid.Col>
 			</Grid>
 		</Container>
-		{/*<SubGrid/>*/}
 	</>
 }
 

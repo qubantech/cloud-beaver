@@ -10,7 +10,7 @@ import {
 	Button,
 	TextInput,
 	SimpleGrid,
-	Timeline, Card, Paper, Spoiler, Badge
+	Timeline, Card, Paper, Spoiler, Badge, AspectRatio
 } from '@mantine/core'
 import {GitBranch} from 'tabler-icons-react'
 
@@ -136,10 +136,10 @@ const Aboutmodal = (props:{isOpen:boolean, setOpen: (b:boolean) => void, title:s
 		<Modal
 			opened={props.isOpen}
 			onClose={() => props.setOpen(false)}
-			size={'xl'}
+			size={'66%'}
 			title={props.title}
 		>
-			<Image height={400} src={props.imageurl}/>
+			<Image height={200} src={props.imageurl}/>
 			<Grid>
 				<Grid.Col span={6}>
 					<Text size="lg" weight={700} pt={25} className={classes.title}>

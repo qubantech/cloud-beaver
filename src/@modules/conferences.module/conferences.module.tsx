@@ -170,7 +170,7 @@ const Conferences = () => {
 
 
 		const onCreateConferenceInModal = () => {
-			console.log('')
+			setModalOpened(false)
 		}
 
 		const [showNotifications, setShowNotifications] = useState(false)

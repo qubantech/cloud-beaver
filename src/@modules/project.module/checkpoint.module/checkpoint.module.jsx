@@ -249,6 +249,14 @@ const Checkpoint = () => {
 				position={'right'}
 				padding="lg"
 				size="xl"
+				title={
+					<Group position={'apart'} style={{width: '100%'}}>
+						<Group>
+							<Button compact>Участники</Button>
+							<Button compact>Вложения</Button>
+						</Group>
+					</Group>
+				}
 			>
 				<div style={{maxWidth: '500px', height: '90vh', borderColor: '#5C5F66', borderRadius: '8px' }}>
 					<Chat/>

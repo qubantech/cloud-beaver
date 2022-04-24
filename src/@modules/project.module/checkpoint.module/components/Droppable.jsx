@@ -25,7 +25,7 @@ const Droppable = ({ id, items, title, color }) => {
 
 				{/* eslint-disable-next-line react/prop-types */}
 				{items.map((item) => (
-					<SortableItem key={item} id={item} />
+					<SortableItem key={item} id={item} status={ title } color={ color }/>
 				))}
 			</Group>
 		</SortableContext>

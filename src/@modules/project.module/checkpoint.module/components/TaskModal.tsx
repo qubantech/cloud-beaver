@@ -1,7 +1,8 @@
-import React from 'react'
-import {Badge, Container, Grid, Group, Text, Table, ThemeIcon} from '@mantine/core'
+import React, {useState} from 'react'
+import {Badge, Container, Grid, Group, Text, Table, ThemeIcon, MultiSelect} from '@mantine/core'
 import { Task } from '../../../../app.shared/app.models'
-import {AlertCircle, AlertTriangle, Clock, ClockOff} from 'tabler-icons-react'
+import {AlertCircle, AlertTriangle, Braces, Brackets, Clock, ClockOff, Paperclip, Tags} from 'tabler-icons-react'
+import {DropzoneContainer} from './dropzone'
 
 
 const TaskModal = ({
@@ -13,7 +14,7 @@ const TaskModal = ({
 	endFact = 1300737973000,
 	tags = ['tag1', 'tag2', 'tag3', 'tag4','tag5'],
 	applications,
-	status = 'В процессе',
+	status,
 	implementers = ['Иванов', 'Петров', 'Сидоров'],
 	controllers = ['Иванов', 'Петров'],
 	chat,
@@ -69,27 +70,128 @@ const TaskModal = ({
 		)
 	}
 
+	const [tagSelect, setTagSelect] = useState(tags)
+	const [controllersSelect, setControllersSelect] = useState(controllers)
+	const [implementersSelect, setImplementersSelect] = useState(implementers)
+
 	return (
 		<Container>
-			<Group spacing={5} style={{marginBottom: '15px'}}>
-				{
-					tags.map((tag, index) => (
-						<Badge key={ index } color={'grape'}>
-							{ tag }
-						</Badge>
-					))
-				}
-			</Group>
 			<Grid>
 				<Grid.Col span={6}>
-					<DatesGroup/>
+					<Group direction={'column'} spacing={10}>
+						<Group spacing={5}>
+							<ThemeIcon variant={'filled'}  color={'gray'}>
+								<Clock size={20}/>
+							</ThemeIcon>
+							<Text color={'#909296'}>Дата начала</Text>
+						</Group>
+						<Group spacing={5}>
+							<ThemeIcon variant={'filled'}  color={'gray'}>
+								<ClockOff size={20}/>
+							</ThemeIcon>
+							<Text color={'#909296'}>Дата завершения</Text>
+						</Group>
+						{
+							status === 'Завершено' &&
+							<Group spacing={5} style={{marginTop: '15px', marginBottom: '15px'}}>
+								<ThemeIcon variant={ 'outline' } color={'orange'}>
+									<AlertTriangle size={20}/>
+								</ThemeIcon>
+								<Text color={'#909296'}>Фактическое завершение</Text>
+							</Group>
+						}
+
+
+						<Group spacing={5} style={{minHeight: '50px', marginTop: '50px'}}>
+							<ThemeIcon variant={'filled'}  color={'gray'}>
+								<Tags size={20}/>
+							</ThemeIcon>
+							<Text color={'#909296'}>Теги</Text>
+						</Group>
+
+
+						<Group spacing={5} style={{minHeight: '50px'}}>
+							<ThemeIcon variant={'filled'}  color={'gray'}>
+								<Braces size={20}/>
+							</ThemeIcon>
+							<Text color={'#909296'}>Менеджеры</Text>
+						</Group>
+
+
+						<Group spacing={5} style={{minHeight: '50px'}}>
+							<ThemeIcon variant={'filled'}  color={'gray'}>
+								<Brackets size={20}/>
+							</ThemeIcon>
+							<Text color={'#909296'}>Исполнители</Text>
+						</Group>
+					</Group>
+
+					<Group spacing={5} style={{marginTop: '50px'}}>
+						<ThemeIcon variant={'filled'}  color={'gray'}>
+							<ClockOff size={20}/>
+						</ThemeIcon>
+						<Text color={'#909296'}>Бюджет планируемый</Text>
+					</Group>
+					<Group spacing={5} style={{marginTop: '15px', marginBottom: '15px'}}>
+						<ThemeIcon variant={ 'outline' } color={'orange'}>
+							<AlertTriangle size={20}/>
+						</ThemeIcon>
+						<Text color={'#909296'}>Бюджет затраченный</Text>
+					</Group>
+
+					<Group spacing={5} style={{marginTop: '15px', marginBottom: '15px'}}>
+						<ThemeIcon variant={ 'outline' } color={'gray'}>
+							<Paperclip size={20}/>
+						</ThemeIcon>
+						<Text color={'#909296'}>Вложения</Text>
+					</Group>
 				</Grid.Col>
+
+
+
 				<Grid.Col span={6}>
-					<PeopleTable/>
+					<Group direction={'column'} spacing={10}>
+						<Text>{ (new Date(begin)).toLocaleDateString('ru-Ru') }</Text>
+						<Text>{ (new Date(begin)).toLocaleDateString('ru-Ru') }</Text>
+						{
+							status === 'Завершено' &&
+							<Text style={{marginTop: '15px', marginBottom: '15px'}}>{ (new Date(endFact)).toLocaleDateString('ru-Ru') }</Text>
+						}
+						<MultiSelect value={tagSelect} onChange={setTagSelect} data={tags} style={{minHeight: '50px', marginTop: '50px'}}/>
+						<MultiSelect value={controllersSelect} onChange={setControllersSelect} data={controllers} style={{minHeight: '50px'}}/>
+						<MultiSelect value={implementersSelect} onChange={setImplementersSelect} data={implementers} style={{minHeight: '50px'}}/>
+
+
+						<Text style={{marginTop: '30px'}}>{ budgetPlan }</Text>
+						<Text>{ budgetFact }</Text>
+					</Group>
+					<DropzoneContainer/>
 				</Grid.Col>
 			</Grid>
 
-			{ description }
+
+
+			{/*<Group spacing={150}>*/}
+			{/*	<Group spacing={5}>*/}
+			{/*		<ThemeIcon variant={'filled'}  color={'gray'}>*/}
+			{/*			<Clock size={20}/>*/}
+			{/*		</ThemeIcon>*/}
+			{/*		<Text color={'#909296'}>Дата начала</Text>*/}
+			{/*	</Group>*/}
+			{/*	<Text>{ (new Date(begin)).toLocaleDateString('ru-Ru') }</Text>*/}
+			{/*</Group>*/}
+
+
+			{/*<Group spacing={150}>*/}
+			{/*	<Group spacing={5}>*/}
+			{/*		<ThemeIcon variant={'filled'}  color={'gray'}>*/}
+			{/*			<ClockOff size={20}/>*/}
+			{/*		</ThemeIcon>*/}
+			{/*		<Text color={'#909296'}>Дата завершения</Text>*/}
+			{/*	</Group>*/}
+			{/*	<Text>{ (new Date(begin)).toLocaleDateString('ru-Ru') }</Text>*/}
+			{/*</Group>*/}
+
 		</Container>
 	)
 }

@@ -26,9 +26,6 @@ import {
 	StatsSegments,
 	ProjectPreviewCard,
 	MetricsPreview,
-	RangedTable,
-	Recommendation,
-	MainMetricWidget
 } from './components'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'

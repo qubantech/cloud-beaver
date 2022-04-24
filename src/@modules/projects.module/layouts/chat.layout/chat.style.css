@@ -1,17 +1,24 @@
 .cs-message__sender-name, .cs-message__sent-time {
     color: #CED4DA !important;
+    fontFamily: 'Greycliff CF' !important;
     margin-top: 5px;
 }
 
 .cs-message__content,
 .cs-message-input__content-editor-wrapper,
 .cs-message-input__content-editor-container,
-.cs-message-input__content-editor {
+.cs-message-input__content-editor,
+.cs-message__html-content{
     background-color: #CED4DA !important;
+    fontFamily: 'Greycliff CF' !important;
 }
 
 .cs-button--attachment,
 .cs-button--send{
     color: #339AF0;
+    fontFamily: 'Greycliff CF' !important;
 }
 
+.cs-message__content{
+    fontFamily: 'Greycliff CF' !important;
+}

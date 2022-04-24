@@ -287,7 +287,7 @@ const Welcome = () => {
 						shadow="md"
 						p="xl"
 						radius="md"
-						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 50%), url(https://i.pinimg.com/736x/e6/5d/02/e65d0254eb912376abf8f30604eb6574.jpg)' }}
+						sx={{ backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 70%), url(https://i.pinimg.com/736x/e6/5d/02/e65d0254eb912376abf8f30604eb6574.jpg)' }}
 						className={classes.card}
 					>
 						<div>

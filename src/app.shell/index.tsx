@@ -51,21 +51,21 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 	] : [
 		{
 			label: 'Главная',
-			link: '/about',
+			link: '/',
 			links: []
 		},
-		{
-			label: 'Проекты',
-			link: '/about',
-			links: []
-		},
-		{
-			label: 'О системе',
-			link: '/faq',
-			links: [
-				// { link: '/template', label: 'Template', icon: BellRinging },
-			]
-		},
+		// {
+		// 	label: 'Проекты',
+		// 	link: '/about',
+		// 	links: []
+		// },
+		// {
+		// 	label: 'О системе',
+		// 	link: '/faq',
+		// 	links: [
+		// 		// { link: '/template', label: 'Template', icon: BellRinging },
+		// 	]
+		// },
 	]
 
 	const Header = <HeaderMenu links={DATA}/>

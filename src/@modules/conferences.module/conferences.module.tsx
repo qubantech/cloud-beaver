@@ -115,9 +115,13 @@ const Conferences = () => {
 				<Button fullWidth variant={'outline'} size={'md'} style={{marginTop: '50px'}} onClick={onOpenChat}>
 					Открыть чат
 				</Button>
-				<Button fullWidth size={'md'} style={{marginTop: '10px'}} onClick={onConnectCall}>
-					Присоединиться
-				</Button>
+				{
+					props.status === 'current' &&
+					<Button fullWidth size={'md'} style={{marginTop: '10px'}} onClick={onOpenChat}>
+						Присоединиться
+					</Button>
+				}
+
 			</Card>
 		</div>
 	)

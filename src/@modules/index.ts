@@ -3,6 +3,8 @@ import { AboutModule } from './about.module'
 import { AuthModule } from './auth.module'
 import { ProjectsModule } from './projects.module'
 import { ProjectModule } from './project.module'
+import { ConferencesModule } from './conferences.module'
+import { NotificationsModule } from './notifications.module'
 
 export const CommonModules = [
 	AboutModule,
@@ -10,4 +12,6 @@ export const CommonModules = [
 	AuthModule,
 	ProjectsModule,
 	ProjectModule,
+	ConferencesModule,
+	NotificationsModule
 ]

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Container, Grid, Group} from '@mantine/core'
+import {ActionIcon, Container, Grid, Group, Text, Title, Drawer, Spoiler, ThemeIcon, Card, Button} from '@mantine/core'
 import { Route, Routes } from 'react-router-dom'
 import { Project } from '../project.module'
 
@@ -16,7 +16,10 @@ import Droppable from './components/Droppable'
 import TaskReview from './components/TaskReview'
 import { arrayMove, insertAtIndex, removeAtIndex } from './utils/array'
 import {useParams} from 'react-router-dom'
+import {Chat} from '../../projects.module/layouts/chat.layout/chat.component'
+import {ArrowBigRightLines, BrandHipchat, LayoutGridAdd, Man, MoodSmile} from 'tabler-icons-react'
 
+// eslint-disable-next-line react/prop-types
 export const Kanban = () => {
 	const { id } = useParams()
 
@@ -47,10 +50,10 @@ export const Kanban = () => {
 
 	const sensors = useSensors(
 		useSensor(MouseSensor,{activationConstraint: {
-			delay: 150
+			delay: 100
 		}}),
 		useSensor(TouchSensor,{activationConstraint: {
-			delay: 150
+			delay: 100
 		}}),
 
 	)
@@ -188,11 +191,102 @@ export const Kanban = () => {
 	)
 }
 
-
+const checkpointProps = {
+	title: 'Название чекпоинта',
+	controllers: ['Путров Т.В.', 'Иванов Ф.П.', 'Сидоров Ф.Ш.','Иванов Ф.П.', 'Сидоров Ф.Ш.','Иванов Ф.П.', 'Сидоров Ф.Ш.'],
+	documents: [],
+	report: '',
+	conferences: [],
+	tasks: [],
+	iq: 1,
+	status: ''
+}
 const Checkpoint = () => {
-	return <Container>
-		<Kanban/>
-	</Container>
+	const [descriptionOpened, setDescriptionOpened] = useState(false)
+
+	const DescriptionDrawer = () => (
+		<Card shadow="sm" p="lg">
+			<Group spacing={5} style={{marginBottom: '20px'}}>
+				<Text weight={700}>Менеджеры чекпоинта</Text>
+			</Group>
+			<Spoiler maxHeight={170} showLabel="Подробнее" hideLabel="Свернуть">
+				<Group direction={'column'} spacing={10} style={{width: '100%'}}>
+					{
+						checkpointProps.controllers.map((c, index) => (
+							<Card key={index} style={{backgroundColor: '#373A40', padding: '10px', width: '100%'}}>
+								<Group direction={'row'} spacing={5}>
+									<ThemeIcon variant={'outline'} size={'md'}>
+										<MoodSmile size={17}/>
+									</ThemeIcon>
+									<Text>{ c }</Text>
+								</Group>
+
+							</Card>
+						))
+					}
+				</Group>
+			</Spoiler>
+		</Card>
+	)
+
+	const [chatOpened, setChatOpened] = useState(false)
+
+	return (
+		<Container>
+			<Drawer
+				opened={descriptionOpened}
+				onClose={() => setDescriptionOpened(false)}
+				title={ checkpointProps.title }
+				padding="lg"
+				size="lg"
+			>
+				 <DescriptionDrawer/>
+			</Drawer>
+
+			<Drawer
+				opened={chatOpened}
+				onClose={() => setChatOpened(false)}
+				position={'right'}
+				padding="lg"
+				size="xl"
+				title={
+					<Group position={'apart'} style={{width: '100%'}}>
+						<Group>
+							<Button compact>Участники</Button>
+							<Button compact>Вложения</Button>
+						</Group>
+					</Group>
+				}
+			>
+				<div style={{maxWidth: '500px', height: '90vh', borderColor: '#5C5F66', borderRadius: '8px' }}>
+					<Chat/>
+				</div>
+			</Drawer>
+
+			<Group position={'apart'} style={{marginBottom: '20px'}}>
+				<Group>
+					<ActionIcon color={'blue'}  variant={'outline'} size={'lg'} onClick={() => {setDescriptionOpened(true)}}>
+						<ArrowBigRightLines size={20}/>
+					</ActionIcon>
+					<Text size={'xl'} color={'#CED4DA'} weight={400}>{ checkpointProps.title }</Text>
+				</Group>
+				<Group>
+					<div style={{width: '220px'}}>
+						<Button fullWidth variant={'outline'} leftIcon={<LayoutGridAdd/>}>
+							Добавить задание
+						</Button>
+					</div>
+					<div style={{width: '120px'}}>
+						<Button fullWidth variant={'outline'} leftIcon={<BrandHipchat/>} onClick={() => setChatOpened(true)}>
+							Чат
+						</Button>
+					</div>
+
+				</Group>
+			</Group>
+			<Kanban/>
+		</Container>
+	)
 }
 
 export default Checkpoint

@@ -7,8 +7,9 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { NavbarState } from '../../shell.state'
 import { useId, useScrollLock } from '@mantine/hooks'
 import { useHeaderStyles } from './header.style'
-import { UserAuthState } from '../../../app.shared/app.state'
+import { UserAuthState, UserState } from '../../../app.shared/app.state'
 import { UserMenu } from './components/user-menu.component'
+import { Notifications } from '../../shell.components/notifications.component'
 
 
 interface HeaderSearchProps {
@@ -22,7 +23,7 @@ interface HeaderSearchProps {
 
 export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 
-	const user = useRecoilValue(UserAuthState)
+	const auth = useRecoilValue(UserAuthState)
 	const [ show, toggleShow ] = useRecoilState(NavbarState)
 
 	const [ scrollLocked, setScrollLocked ] = useScrollLock()
@@ -80,11 +81,11 @@ export const HeaderMenu = ({ links }: HeaderSearchProps) => {
 				<Group spacing={5} className={classes.links}>
 					{menuItems}
 					{
-						user
-						&& <UserMenu user={{
-							name: 'Олег Лихогуб',
-							image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
-						}}/>
+						auth && <Notifications/>
+					}
+					{
+						auth
+						&& <UserMenu/>
 						|| <Button variant={'outline'} color={'gray'} onClick={onLogin}>
 							Войти
 						</Button>

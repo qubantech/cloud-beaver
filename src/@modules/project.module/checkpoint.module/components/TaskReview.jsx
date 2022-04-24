@@ -4,7 +4,7 @@ import {Badge, Card, Group, Text, Modal, SimpleGrid} from '@mantine/core'
 import TaskModal from './TaskModal'
 
 // eslint-disable-next-line react/prop-types
-const TaskReview = ({id, dragOverlay, title, description }) => {
+const TaskReview = ({id, dragOverlay, title, description, status, color }) => {
 	const style = {
 		cursor: dragOverlay ? 'grabbing' : 'grab',
 		minWidth: '280px',
@@ -29,13 +29,14 @@ const TaskReview = ({id, dragOverlay, title, description }) => {
 				title={
 					<Group>
 						<Text>{ title }</Text>
-						<Badge>В процессе</Badge>
+						<Badge color={ color }>{ status }</Badge>
 					</Group>
 				}
 			>
 				<TaskModal
 					title={ title }
 					description={ description }
+					status={ status }
 				/>
 			</Modal>
 

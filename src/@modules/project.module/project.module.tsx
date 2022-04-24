@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Container,
 	Timeline,
@@ -13,17 +13,34 @@ import {
 	Title,
 	createStyles,
 	ThemeIcon,
-	SimpleGrid, Menu, useMantineTheme
+	SimpleGrid, Menu, useMantineTheme, Code, ActionIcon, Checkbox
 } from '@mantine/core'
-import { ChevronDown, GitBranch, MessageCircle, Package, Photo, Settings, SquareCheck } from 'tabler-icons-react'
+import {
+	Adjustments,
+	ChevronDown, Download, Edit,
+	GitBranch,
+	MessageCircle,
+	Package,
+	Photo,
+	Settings,
+	SquareCheck
+} from 'tabler-icons-react'
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownRight } from 'tabler-icons-react'
 import { RingStats } from './components/ring-stats/ring-stats.component'
-import { TableView } from './components/table/table.component'
+import { LateTasksTableView } from './components/late-tasks-table/late-tasks-table.component'
 import { Card as MantineCard } from '@mantine/core'
 import Checkpoint from './checkpoint.module/checkpoint.module'
+import { DatePicker } from '@mantine/dates'
+import { useRecoilValue } from 'recoil'
+import { UserAuthState } from '../../app.shared/app.state'
+import { CheckpointView } from './checkpoint.module/checkpoint-view.module'
+
 import {Chart} from 'react-google-charts'
 import './project.css'
+import { useProjectById } from '../../app.shared/app.services/app.project.service'
+import {Project as ProjectModel} from './../../app.shared/app.models'
+
 
 const useStyles = createStyles((theme) => ({
 	root: {
@@ -191,107 +208,271 @@ const ButtonMenuSettings = () => {
 }
 
 
-const OverviewTab = ({projectName}: {projectName: string}) => {
+const OverviewTab = ({projectName, project}: {projectName: string, project: ProjectModel | null}) => {
 
+	const user = useRecoilValue(UserAuthState)
 	const navigate = useNavigate()
+
+	const [allowEdit, setAllowEdit] = useState(false)
+	const [editDates, setEditDates] = useState(false)
+
+	const [showCheckpointCreate, setShowCheckpointCreate] = useState(false)
+
+	useEffect(() => {
+		if (!user) {
+			setAllowEdit(false)
+			return
+		}
+		if (user == 'implementer') {
+			setAllowEdit(false)
+			setShowCheckpointCreate(false)
+			return
+		}
+		if (user == 'manager') {
+			setAllowEdit(true)
+			setShowCheckpointCreate(true)
+			return
+		}
+	}, [user])
+
+	const ProjectTimings = () => {
+		return <>
+			<MantineCard mb={'md'} style={{fontFamily: 'Greycliff CF'}}>
+				<Grid columns={12}>
+					{
+						allowEdit && <Grid.Col span={1}>
+							<ActionIcon size="xl" radius="xl" onClick={onEditClick}>
+								<Edit />
+							</ActionIcon>
+						</Grid.Col>
+					}
+					<Grid.Col span={allowEdit && 11 || 12}>
+						<SimpleGrid spacing={'xs'}>
+							<Group direction={'row'} position={'apart'}>
+								<Text>
+									Дата начала проекта:
+								</Text>
+								{
+									!editDates
+									&& <Code block>21.02.2002</Code>
+									|| <DatePicker
+										locale="ru"
+										defaultValue={new Date()}
+									/>
+								}
+							</Group>
+							<Group direction={'row'} position={'apart'}>
+								<Text>
+									Дата планируемого завершения проекта:
+								</Text>
+								{
+									!editDates
+									&& <Code block>21.02.2002</Code>
+									|| <DatePicker
+										locale="ru"
+										defaultValue={new Date()}
+									/>
+								}
+							</Group>
+						</SimpleGrid>
+					</Grid.Col>
+				</Grid>
+			</MantineCard>
+		</>
+	}
+
+	const onEditClick = () => {
+		setEditDates(() => !editDates)
+	}
+
+	const ManagerReport = () => {
+		return <>
+			<RingStats
+				title={'Статистика по задачам'}
+				description={'Текущая контрольная точка: 4'}
+				completed={45}
+				total={147}
+				stats={[
+					{
+						'value': 26,
+						'label': 'Ожидает рассмотрения'
+					},
+					{
+						'value': 76,
+						'label': 'В работе'
+					}
+				]}
+			/>
+			<LateTasksTableView/>
+		</>
+	}
+
+	const ManagerReportCard = () => {
+		return <Paper withBorder p="xl" radius="md" style={{fontFamily: 'Greycliff CF'}}>
+			<Text style={{
+				fontFamily: 'Greycliff CF',
+				fontWeight: 600,
+				lineHeight: 1,
+			}} mb={'md'}>
+				Получить отчёт за последний период
+			</Text>
+			<Group direction={'column'}>
+				<Checkbox label="Включить статистику по задачам"/>
+				<Checkbox label="Включить прогноз"/>
+				<Button color={'gray'} leftIcon={<Download/>}>
+					Загрузить отчёт
+				</Button>
+			</Group>
+		</Paper>
+	}
+
+	const ManagerPredictedStats = () => {
+		return <StatsGridIcons {...{
+			data: [
+				{
+					title: 'Вклад контрольной точки в IQ за последнй год',
+					value: '+12.31 IQ',
+					diff: 34
+				},
+				{
+					title: 'Прогноз вклада в следующий период',
+					value: '-2.91 IQ',
+					diff: -23
+				},
+			]
+		}}/>
+	}
+
+	const ImplementerStats = () => {
+		return <>
+			<RingStats
+				title={'Мои задачи'}
+				description={'Текущая контрольная точка: 4'}
+				completed={5}
+				total={11}
+				stats={[
+					{
+						'value': 2,
+						'label': 'Ожидает рассмотрения'
+					},
+					{
+						'value': 1,
+						'label': 'В работе'
+					}
+				]}
+			/>
+		</>
+	}
+
+	const ImplementerTasks = () => {
+		return <>
+			<CheckpointView/>
+		</>
+	}
+
+	const Checkpoint = () => {
+
+		const DATA: {
+			title: string,
+			date?: string,
+			status: 'completed' | 'late' | 'cancelled' | 'current' | 'planned'
+			onClick?: () => void
+		}[] = [
+			{
+				date: '22.01.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'completed',
+				onClick: () => navigate('1')
+			},
+			{
+				date: '11.02.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'completed',
+				onClick: () => navigate('2')
+			},
+			{
+				date: '23.02.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'late',
+				onClick: () => navigate('3')
+			},
+			{
+				date: '14.04.2023',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'current',
+				onClick: () => navigate('4')
+			},
+			{
+				date: '22.02.2025',
+				title: 'Поэтапное внедрение государственных информационных ' +
+					'систем обеспечения градостроительной деятельности (при ' +
+					'необходимости - на базе существующих информационных систем).',
+				status: 'planned',
+				onClick: () => navigate('5')
+			},
+		]
+
+		return <Container mb={'xl'}>
+			<Group position={'apart'} direction={'row'}>
+				<Title order={3} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
+					Контрольные точки
+				</Title>
+				{
+					showCheckpointCreate &&
+					<ButtonMenuCreate/>
+				}
+			</Group>
+			<Timeline active={3} bulletSize={24} lineWidth={2}>
+				{
+					DATA.map(data =>
+						<Timeline.Item key={data.date} bullet={<GitBranch size={12}/>} title="Контрольная точка">
+							<Card {...data}/>
+						</Timeline.Item>
+					)
+				}
+			</Timeline>
+		</Container>
+	}
 
 	return <Grid columns={12}>
 		<Grid.Col span={8}>
 			<Title order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
 				{projectName}
 			</Title>
-			<MantineCard mb={'md'} style={{fontFamily: 'Greycliff CF'}}>
-				<Group>
-					<Text>
-						Дата начала проекта:
-					</Text>
-				</Group>
-				<Group>
-					<Text>
-						Дата планируемого завершения проекта:
-					</Text>
-				</Group>
-			</MantineCard>
+			<ProjectTimings/>
+			{
+				user == 'implementer' &&
+				<SimpleGrid cols={1} mb={'md'}>
+					<ImplementerStats/>
+					<ImplementerTasks/>
+				</SimpleGrid>
+			}
 			<SimpleGrid cols={2}>
 				<SimpleGrid cols={1}>
-					<RingStats
-						title={'Статистика по задачам'}
-						description={'Текущая контрольная точка: 4'}
-						completed={45}
-						total={147}
-						stats={[
-							{
-								'value': 26,
-								'label': 'Ожидает рассмотрения'
-							},
-							{
-								'value': 76,
-								'label': 'В работе'
-							}
-						]}
-					/>
-					<TableView/>
+					{
+						user == 'manager' &&
+						<ManagerReport/>
+					}
 				</SimpleGrid>
-				<StatsGridIcons {...{
-					data: [
-						{
-							title: 'Вклад контрольной точки в IQ за последнй год',
-							value: '+12.31 IQ',
-							diff: 34
-						},
-						{
-							title: 'Прогноз вклада в следующий период',
-							value: '-2.91 IQ',
-							diff: -23
-						},
-					]
-				}}/>
+				{
+					user == 'manager' &&
+					<SimpleGrid>
+						<ManagerReportCard/>
+						<ManagerPredictedStats/>
+					</SimpleGrid>
+				}
 			</SimpleGrid>
 		</Grid.Col>
 		<Grid.Col span={4}>
-			<Container mb={'xl'}>
-				<Group position={'apart'} direction={'row'}>
-					<Title order={3} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
-						Контрольные точки
-					</Title>
-					<ButtonMenuCreate/>
-				</Group>
-				<Timeline active={3} bulletSize={24} lineWidth={2}>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'completed'}
-							  onClick={() => navigate('1')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'completed'}
-							  onClick={() => navigate('2')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'late'}
-							  onClick={() => navigate('3')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'current'}
-							  onClick={() => navigate('4')}
-						/>
-					</Timeline.Item>
-					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка">
-						<Card date={'22.02.2023'}
-							  title={'Поэтапное внедрение государственных информационных систем обеспечения градостроительной деятельности (при необходимости - на базе существующих информационных систем).'}
-							  status={'planned'}/>
-					</Timeline.Item>
-				</Timeline>
-			</Container>
+			<Checkpoint/>
 		</Grid.Col>
 	</Grid>
 }
@@ -410,8 +591,6 @@ const rows = [
 		'task7'
 	]
 
-
-
 ]
 
 const data = [columns, ...rows]
@@ -500,7 +679,8 @@ const options = {
 	}
 }
 
-const ExtendedModeTab = () => {
+const ExtendedModeTab = ({project}: {project: ProjectModel | null}) => {
+
 	return <>
 		<Title align={'center'} order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
 			Диаграмма Ганта по текущим задачам
@@ -512,6 +692,7 @@ const ExtendedModeTab = () => {
 			// @ts-ignore
 			   options={options}
 			   className={'gantt'}
+			   style={{ color: '#3a3a3a' }}
 		/>
 		<Grid>
 			<Grid.Col span={6} pb={40}>
@@ -546,19 +727,24 @@ const ExtendedModeTab = () => {
 				</Timeline>
 			</Grid.Col>
 			<Grid.Col span={6}>
-				<TableView/>
+				<LateTasksTableView/>
 			</Grid.Col>
 		</Grid>
 	</>
 }
 
-const ReviewTab = () => {
+const ReviewTab = ({project}: {project: ProjectModel | null}) => {
+
 	return <></>
 }
 
 const ProjectBoard = () => {
 
+	const user = useRecoilValue(UserAuthState)
 	const {id} = useParams()
+	const project = useProjectById((id && id || ''))
+		.watchedObject
+
 	const [ activeTab, setActiveTab ] = useState(0)
 
 	return <Container mt={'lg'}>
@@ -566,14 +752,20 @@ const ProjectBoard = () => {
 			<Route index element={
 				<Tabs active={activeTab} onTabChange={setActiveTab}>
 					<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
-						<OverviewTab projectName={`Проект ${id}`}/>
+						<OverviewTab projectName={project?.title || ''} project={project}/>
 					</Tabs.Tab>
-					<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
-						<ExtendedModeTab/>
-					</Tabs.Tab>
-					<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
-						<ReviewTab/>
-					</Tabs.Tab>
+					{
+						user == 'manager' &&
+						<Tabs.Tab label="Расширенный режим" icon={<MessageCircle size={14}/>}>
+							<ExtendedModeTab project={project}/>
+						</Tabs.Tab>
+					}
+					{
+						user == 'manager' &&
+						<Tabs.Tab label="Рассмотрение" icon={<Settings size={14}/>}>
+							<ReviewTab project={project}/>
+						</Tabs.Tab>
+					}
 				</Tabs>
 			}/>
 			<Route path={':id'} element={<Checkpoint/>}/>

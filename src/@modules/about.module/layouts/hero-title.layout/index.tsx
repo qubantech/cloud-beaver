@@ -114,15 +114,15 @@ export function HeroTitle() {
 						>
 							Попробовать
 						</Button>
-						<Button
-							component="a"
-							href="https://github.com"
-							variant="outline"
-							className={cx(classes.control, classes.githubControl)}
-							color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
-						>
-							<BrandGithub />
-						</Button>
+						{/*<Button*/}
+						{/*	component="a"*/}
+						{/*	href="https://github.com"*/}
+						{/*	variant="outline"*/}
+						{/*	className={cx(classes.control, classes.githubControl)}*/}
+						{/*	color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}*/}
+						{/*>*/}
+						{/*	<BrandGithub />*/}
+						{/*</Button>*/}
 					</Group>
 				}
 			</Container>

@@ -7,8 +7,8 @@ import {
 	BrandInstagram,
 	BrandTwitter,
 	BrandYoutube,
-	Camera,
-	Plus,
+	Camera, Notebook, Notification,
+	Plus, Polygon, Video,
 } from 'tabler-icons-react'
 import { FooterLinks, HeaderMenu, NavbarSegmented } from './shell.layouts'
 import { FabButton } from './shell.components/fab.component'
@@ -31,24 +31,39 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 
 
 	const DATA = user ? [
-		{
-			label: 'Demos',
-			link: '',
-			links: [
-				{ link: '/template', label: 'Template', icon: BellRinging },
-			]
-		},
+		// {
+		// 	label: 'Demos',
+		// 	link: '',
+		// 	links: [
+		// 		{ link: '/template', label: 'Template', icon: BellRinging },
+		// 	]
+		// },
 		{
 			label: 'Проекты',
 			link: '/projects',
 			links: []
 		},
+		{
+			label: 'Центр конференций',
+			link: '/conferences',
+			links: []
+		},
 	] : [
 		{
-			label: 'Demos',
-			link: '',
+			label: 'Главная',
+			link: '/about',
+			links: []
+		},
+		{
+			label: 'Проекты',
+			link: '/about',
+			links: []
+		},
+		{
+			label: 'О системе',
+			link: '/faq',
 			links: [
-				{ link: '/template', label: 'Template', icon: BellRinging },
+				// { link: '/template', label: 'Template', icon: BellRinging },
 			]
 		},
 	]
@@ -74,20 +89,36 @@ export const Shell: FC<PropsWithChildren<any>> = ({ children }) => {
 		/>
 		: undefined
 
-	const FabWidget = showNavbar
+	const FabWidget = user && (showNavbar
 		? undefined
 		: <FabButton {...{
 			root: {
-				icon: Plus,
+				icon: Polygon,
 			},
 			data: [
 				{
 					onClick: () => {
-						navigate('/template')
-					}, icon: Camera, title: 'Template'
+						navigate('/projects')
+					},
+					icon: Notebook,
+					title: 'Проекты'
+				},
+				{
+					onClick: () => {
+						navigate('/conferences')
+					},
+					icon: Video,
+					title: 'Конференции'
+				},
+				{
+					onClick: () => {
+						navigate('/notifications')
+					},
+					icon: Notification,
+					title: 'Уведомления'
 				},
 			]
-		}}/>
+		}}/>) || undefined
 
 
 	return <AppShell header={Header} aside={Navbar} footer={Footer} styles={Styles} fixed padding={0}>

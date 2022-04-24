@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Center,
 	Container,
@@ -9,10 +9,16 @@ import {
 	Divider,
 	Grid,
 	Group,
-	Title, Accordion, Paper, Button
+	Title,
+	Accordion,
+	Paper,
+	Button,
+	Modal,
+	Input,
+	MultiSelect
 } from '@mantine/core'
 import { DateRangePicker } from '@mantine/dates'
-import { MessageCircle, Photo, Settings } from 'tabler-icons-react'
+import { At, MessageCircle, Photo, Settings } from 'tabler-icons-react'
 import { StatsRingCard } from '../../app.shared/app.components/stats-ring-card.component'
 import {
 	ProjectCard,
@@ -25,30 +31,40 @@ import {
 	MainMetricWidget
 } from './components'
 import { useNavigate } from 'react-router-dom'
-import { Chat } from './layouts/chat.layout/chat.component'
+import { useRecoilValue } from 'recoil'
+import { UserAuthState } from '../../app.shared/app.state'
+import { useUserList } from '../../app.shared/app.services/app.user.service'
+import { useProjectList } from '../../app.shared/app.services/app.project.service'
+import { Project, User } from '../../app.shared/app.models'
 
 
 const ProjectsContainer = ({ cardSelected, setCardSelected }: any) => {
 
+	const projects = useProjectList().watchedObject as unknown as [Project]
+
+	useEffect(() => {
+		console.log(projects)
+	}, [])
+
 	return <>
 		<SimpleGrid cols={3}>
 			{
-				[ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].map((key) => (<ProjectCard
-					redirect={`/project/${key}`}
-					key={key} {...{
-						category: 'Технологии',
-						title: 'Создание цифрового двойника города',
+				projects?.map((project) => (<ProjectCard
+					redirect={`/project/${project.id}`}
+					key={project.id} {...{
+						category: project.organizations as unknown as string,
+						title: project.title,
 						date: 'До 31.12.2024',
 						department: 'Отдел информационных технологий'
 					}}
 					onClick={() => {
-						if (key === cardSelected) {
+						if (project.id === cardSelected) {
 							setCardSelected(null)
 							return
 						}
-						setCardSelected(key)
+						setCardSelected(project.id)
 					}}
-					isSelected={cardSelected === key}
+					isSelected={cardSelected === project.id}
 				/>
 				))
 			}
@@ -63,72 +79,162 @@ const OverviewTab = () => {
 
 	const navigate = useNavigate()
 	const [ cardSelected, setCardSelected ] = useState<number | null>(null)
+	const [ summaryIQ, setSummaryIQ ] = useState(0)
+
+	const user = useRecoilValue(UserAuthState)
+	const projects = useProjectList().watchedObject as unknown as [Project]
+
+	useEffect(() => {
+		if (projects) {
+			const summaryIQ = projects?.reduce((iq, project) => iq + project.iq, 0) / projects.length
+			setSummaryIQ(summaryIQ)
+		}
+	}, [projects])
+
+	const [ showCreateProject, setShowCreateProject ] = useState(false)
+	const [ showInfographics, setShowInfographics ] = useState(false)
+
+	const [ showModal, setShowModal ] = useState(false)
+
+	useEffect(() => {
+		if (!user) {
+			navigate('/')
+		}
+		if (user == 'manager') {
+			setShowCreateProject(true)
+			setShowInfographics(true)
+			return
+		}
+		if (user == 'implementer') {
+			setShowCreateProject(false)
+			setShowInfographics(false)
+			return
+		}
+	}, [ user ])
+
+	const onCreateProject = () => {
+		setShowModal(true)
+	}
+
+	const onCreateConference = () => {
+		navigate('/conference')
+	}
+
+	const ProjectCreationForm = () => {
+
+		const [projectName, setProjectName] = useState('')
+		const [usersList, setUsersList] = useState<{value: string, label: string}[]>([])
+
+		const users = useUserList().watchedObject
+
+		useEffect(() => {
+			if (users) setUsersList(
+				Object.keys(users)
+					.map(user => ({
+						value: users[user].id,
+						label: users[user].firstname + ' ' + users[user].lastname
+					}))
+			)
+		}, [users])
+
+		const onCreateProject = () => {
+			console.log('Создать проект')
+		}
+
+		return <SimpleGrid cols={1}>
+			<Input icon={<At/>} value={projectName} onChange={
+				// @ts-ignore
+				(event) => setProjectName(event.target.value)
+			} placeholder="Название проекта"/>
+			<MultiSelect
+				data={usersList}
+				label="Ответственные"
+				placeholder="Выбрать ответственных"
+			/>
+			<Button onClick={onCreateProject}>
+				Создать проект
+			</Button>
+		</SimpleGrid>
+	}
 
 	return <>
 		<Container my="md">
+			<Modal
+				opened={showModal}
+				onClose={() => setShowModal(false)}
+				title="Создание проекта"
+			>
+				{<ProjectCreationForm/>}
+			</Modal>
 			<Grid columns={12} gutter={28}>
 				<Grid.Col span={8}>
 					<Group position={'apart'} my={'xs'}>
 						<Title style={{ color: '#FFFFFF' }} order={2}>
 							Проекты
 						</Title>
-						<ButtonMenu/>
+						{
+							showCreateProject &&
+							<ButtonMenu onConferenceCreate={onCreateConference} onProjectCreate={onCreateProject}/>
+						}
 					</Group>
 					<ProjectsContainer cardSelected={cardSelected} setCardSelected={setCardSelected}/>
 				</Grid.Col>
 				<Grid.Col span={4}>
-					<StatsSegments
-						{...{
-							total: '117,75',
-							diff: 18,
-							data: [
-								{
-									label: 'Закрыто в срок',
-									count: '204',
-									part: 59,
-									color: '#1cabe5'
-								},
-								{
-									label: 'Превышен срок',
-									count: '110',
-									part: 35,
-									color: '#eab86c'
-								},
-								{
-									label: 'Отменено',
-									count: '31',
-									part: 6,
-									color: '#be1b34'
-								}
-							]
-						}}
-					/>
+					{
+						showInfographics &&
+						<StatsSegments
+							{...{
+								total: summaryIQ.toPrecision(4),
+								diff: 18,
+								data: [
+									{
+										label: 'Закрыто в срок',
+										count: '204',
+										part: 59,
+										color: '#1cabe5'
+									},
+									{
+										label: 'Превышен срок',
+										count: '110',
+										part: 35,
+										color: '#eab86c'
+									},
+									{
+										label: 'Отменено',
+										count: '31',
+										part: 6,
+										color: '#be1b34'
+									}
+								]
+							}}
+						/>
+					}
 					{
 						cardSelected &&
 						<>
 							<Divider my="xs" label="Краткая сводка" labelPosition="center"/>
 							<ProjectPreviewCard {...{
 								image: 'https://admnvrsk.ru/upload/resize_cache/iblock/97c/865_497_2/97cb010aa3a97f724bed2dead73860b2.jpg',
-								title: 'Создание "Цифрового двойника города"',
+								title: projects[cardSelected].title,
 								description: 'МБУ ""АПК Безопасный город - ЕДДС""\n' +
-								'Управление транспорта и дорожного хозяйства\n' +
-								'Управление культуры\n' +
-								'Управление образования\n' +
-								'Управление по физической культуре и спорту\n' +
-								'Отдел экологической безопасности\n' +
-								'Отдел по курортам и туризму\n',
+									'Управление транспорта и дорожного хозяйства\n' +
+									'Управление культуры\n' +
+									'Управление образования\n' +
+									'Управление по физической культуре и спорту\n' +
+									'Отдел экологической безопасности\n' +
+									'Отдел по курортам и туризму\n',
 								badges: [
 									{
-										'emoji': '☀️',
-										'label': 'Sunny weather'
+										'emoji': '🖨️️',
+										'label': 'Документооборот'
 									},
 									{
-										'emoji': '🦓',
-										'label': 'Onsite zoo'
+										'emoji': '🌐',
+										'label': 'Интернет'
 									},
 									{
-										'emoji': '🌊',
-										'label': 'Sea'
+										'emoji': '💫',
+										'label': 'Жилищно-комуннальные услуги'
 									}
 								]
 							}}
@@ -333,18 +439,25 @@ const AnalyticsTab = () => {
 const ProjectsDashboard = () => {
 
 	const [ activeTab, setActiveTab ] = useState(0)
+	const user = useRecoilValue(UserAuthState)
 
 	return <Container mt={'lg'}>
 		<Tabs active={activeTab} onTabChange={setActiveTab}>
 			<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
 				<OverviewTab/>
 			</Tabs.Tab>
-			<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
-				<InfoTab/>
-			</Tabs.Tab>
-			<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
-				<AnalyticsTab/>
-			</Tabs.Tab>
+			{
+				user == 'manager' &&
+				<Tabs.Tab label="Инфографика" icon={<MessageCircle size={14}/>}>
+					<InfoTab/>
+				</Tabs.Tab>
+			}
+			{
+				user == 'manager' &&
+				<Tabs.Tab label="Аналитика" icon={<Settings size={14}/>}>
+					<AnalyticsTab/>
+				</Tabs.Tab>
+			}
 		</Tabs>
 	</Container>
 }

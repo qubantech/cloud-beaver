@@ -36,6 +36,8 @@ import { useRecoilValue } from 'recoil'
 import { UserAuthState } from '../../app.shared/app.state'
 import { CheckpointView } from './checkpoint.module/checkpoint-view.module'
 
+import {Chart} from 'react-google-charts'
+import './project.css'
 
 const useStyles = createStyles((theme) => ({
 	root: {
@@ -472,8 +474,260 @@ const OverviewTab = ({projectName}: {projectName: string}) => {
 	</Grid>
 }
 
+
+const columns = [
+	{ type: 'string', label: 'Checkpoint name' },
+	{ type: 'string', label: 'Task name' },
+	{ type: 'string', label: 'Resource' },
+	{ type: 'date', label: 'Start Date' },
+	{ type: 'date', label: 'End Date' },
+	{ type: 'number', label: 'Duration' },
+	{ type: 'number', label: 'Percent Complete' },
+	{ type: 'string', label: 'Dependencies' }
+]
+
+const rows = [
+	[
+		'task1',
+		'Внедрение системы управления\nгородским парковочным пространством',
+		'resource1',
+		new Date(2015, 0, 1),
+		new Date(2015, 1, 1),
+		null,
+		100,
+		null
+	],
+	[
+		'task2',
+		'Многоуровневые автоматизированные\n парковки',
+		'resource1',
+		new Date(2015, 0, 25),
+		new Date(2015, 2, 3),
+		null,
+		100,
+		'task1'
+	],
+	[
+		'task3',
+		'"Стереогараж" механизированная система\nпарковки',
+		'resource1',
+		new Date(2015, 1, 25),
+		new Date(2015, 4, 20),
+		null,
+		100,
+		'task2'
+	],
+	[
+		'task4',
+		'Внедрение системы отслеживания \nпередвижения общественного транспорта',
+		'resource2',
+		new Date(2015, 2, 1),
+		new Date(2015, 2, 20),
+		null,
+		100,
+		'task2'
+	],
+	[
+		'task5',
+		'Дистанционное оповещение граждан',
+		'resource2',
+		new Date(2015, 2, 20),
+		new Date(2015, 3, 5),
+		null,
+		100,
+		'task4'
+	],
+	[
+		'task6',
+		'Внедрение единой системы оплаты \nпроезда в общественном транспорте,',
+		'resource2',
+		new Date(2015, 2, 27),
+		new Date(2015, 4, 1),
+		null,
+		70,
+		'task4'
+	],
+	[
+		'task7',
+		'Система организации льготного проезда',
+		'resource2',
+		new Date(2015, 2, 28),
+		new Date(2015, 4, 15),
+		null,
+		30,
+		'task4'
+	],
+	[
+		'task8',
+		'Обеспечение безопасных и комфортных \nмест ожидания общественного транспорта',
+		'resource3',
+		new Date(2015, 4, 10),
+		new Date(2015, 5, 30),
+		null,
+		0,
+		'task7'
+	],
+	[
+		'task9',
+		'Оборудование безопасных и комфортных \nмест ожидания общественного транспорта',
+		'resource3',
+		new Date(2015, 4, 25),
+		new Date(2015, 6, 1),
+		null,
+		0,
+		'task7'
+	],
+	[
+		'task10',
+		'Мониторинг состояния дорожного полотна ',
+		'resource4',
+		new Date(2015, 4, 20),
+		new Date(2015, 6, 30),
+		null,
+		0,
+		'task7'
+	]
+
+
+
+]
+
+const data = [columns, ...rows]
+
+const options = {
+	height: 450,
+	backgroundColor:{
+		//@ts-ignore
+		fill: '#141517'
+	},
+	gantt: {
+		palette: [
+			{
+				'color': '#5F3DC4',
+				'dark': '#2a56c6',
+				'light': '#c6dafc'
+			},
+			{
+				'color': '#C92A2A',
+				'dark': '#a52714',
+				'light': '#f4c7c3'
+			},
+			{
+				'color': '#862E9C',
+				'dark': '#862E9C',
+				'light': '#fce8b2'
+			},
+			{
+				'color': '#0f9d58',
+				'dark': '#0b8043',
+				'light': '#b7e1cd'
+			},
+			{
+				'color': '#E67700',
+				'dark': '#6a1b9a',
+				'light': '#e1bee7'
+			},
+			{
+				'color': '#00acc1',
+				'dark': '#00838f',
+				'light': '#b2ebf2'
+			},
+			{
+				'color': '#ff7043',
+				'dark': '#e64a19',
+				'light': '#ffccbc'
+			},
+			{
+				'color': '#9e9d24',
+				'dark': '#827717',
+				'light': '#f0f4c3'
+			},
+			{
+				'color': '#5c6bc0',
+				'dark': '#3949ab',
+				'light': '#c5cae9'
+			},
+			{
+				'color': '#f06292',
+				'dark': '#e91e63',
+				'light': '#f8bbd0'
+			},
+			{
+				'color': '#00796b',
+				'dark': '#004d40',
+				'light': '#b2dfdb'
+			},
+			{
+				'color': '#c2185b',
+				'dark': '#880e4f',
+				'light': '#f48fb1'
+			}
+		],
+		labelStyle: {
+			fontSize:14,
+			color: 'white'
+		},
+		criticalPathEnabled: false,
+		innerGridHorizLine: {
+			stroke: '#343A40',
+			strokeWidth: 2
+		},
+		percentStyle: {fill: '#00796b'},
+		innerGridTrack: {fill: '#E7F5FF'},
+		innerGridDarkTrack: {fill: '#ADB5BD'}
+	}
+}
+
 const ExtendedModeTab = () => {
-	return <></>
+	return <>
+		<Title align={'center'} order={1} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}} mb={'md'}>
+			Диаграмма Ганта по текущим задачам
+		</Title>
+		<Chart chartType="Gantt"
+			   width="100%"
+			   height="450px"
+			   data={data}
+			// @ts-ignore
+			   options={options}
+			   className={'gantt'}
+		/>
+		<Grid>
+			<Grid.Col span={6} pb={40}>
+				<Title order={3} style={{color: '#cbcbcb', fontFamily: 'Greycliff CF'}}>
+					Ход работы
+				</Title>
+				<Timeline pt={20} active={3} bulletSize={24} lineWidth={2}>
+					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка 1">
+						<Card date={'10.02.2022'}
+							  title={'Создание системы администрирования городского парковочного пространства'}
+							  status={'completed'}
+						/>
+					</Timeline.Item>
+					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка 2">
+						<Card date={'22.03.2022'}
+							  title={'Интеллектуальное управление городским общественным транспортом'}
+							  status={'completed'}
+						/>
+					</Timeline.Item>
+					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка 3">
+						<Card date={'22.04.2022'}
+							  title={'Создание безопасных и комфортных мест ожидания общественного транспорта'}
+							  status={'current'}
+						/>
+					</Timeline.Item>
+					<Timeline.Item bullet={<GitBranch size={12}/>} title="Контрольная точка 4">
+						<Card date={'10.08.2022'}
+							  title={'Создание системы мониторинга состояния дорожного полотна'}
+							  status={'planned'}
+						/>
+					</Timeline.Item>
+				</Timeline>
+			</Grid.Col>
+			<Grid.Col span={6}>
+				<TableView/>
+			</Grid.Col>
+		</Grid>
+	</>
 }
 
 const ReviewTab = () => {
@@ -484,11 +738,12 @@ const ProjectBoard = () => {
 
 	const user = useRecoilValue(UserAuthState)
 	const {id} = useParams()
+	const [ activeTab, setActiveTab ] = useState(0)
 
 	return <Container mt={'lg'}>
 		<Routes>
 			<Route index element={
-				<Tabs>
+				<Tabs active={activeTab} onTabChange={setActiveTab}>
 					<Tabs.Tab label="Обзор" icon={<Photo size={14}/>}>
 						<OverviewTab projectName={`Проект ${id}`}/>
 					</Tabs.Tab>
